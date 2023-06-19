@@ -10,8 +10,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Response<T> implements Serializable {
     private int code;
-
     private String message;
-
     private T data;
 }

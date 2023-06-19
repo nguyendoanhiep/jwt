@@ -127,6 +127,5 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
             return new Response<>(400, "Fail", null);
         }
-
     }
 }
