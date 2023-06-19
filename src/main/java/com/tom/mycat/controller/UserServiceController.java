@@ -1,6 +1,7 @@
 package com.tom.mycat.controller;
 
 
+import com.tom.mycat.entity.dto.FormChangePassword;
 import com.tom.mycat.entity.dto.FormRegister;
 import com.tom.mycat.entity.dto.FormLogin;
 import com.tom.mycat.entity.dto.UserDto;
@@ -30,7 +31,7 @@ public class UserServiceController {
         return userService.editUser(userDto);
     }
     @PostMapping("/changePassword")
-    public Response<?> changePassword(@RequestBody UserDto userDto) {
-        return userService.editUser(userDto);
+    public Response<?> changePassword(@RequestBody FormChangePassword formChangePassword) {
+        return userService.changePassword(formChangePassword);
     }
 }

@@ -10,5 +10,5 @@ public interface UserService {
     Response<?> register(FormRegister formRegister);
     Response<?> login(FormLogin formLogin);
     Response<?> editUser(UserDto userDto);
-    Response<?> changePassword(FormChangePassword userDto);
+    Response<?> changePassword(FormChangePassword formChangePassword);
 }
