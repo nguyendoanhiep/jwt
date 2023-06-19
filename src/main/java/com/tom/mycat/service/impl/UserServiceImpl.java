@@ -7,6 +7,7 @@ import com.tom.mycat.entity.dto.FormChangePassword;
 import com.tom.mycat.entity.dto.FormRegister;
 import com.tom.mycat.entity.dto.UserDto;
 import com.tom.mycat.entity.dto.FormLogin;
+import com.tom.mycat.jwt.JwtAuthenticationFilter;
 import com.tom.mycat.jwt.JwtTokenProvider;
 import com.tom.mycat.repository.RoleRepository;
 import com.tom.mycat.repository.UserRepository;
@@ -19,7 +20,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -34,13 +38,15 @@ public class UserServiceImpl implements UserService {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Override
     public Response<?> register(FormRegister formRegister) {
         try {
             Optional<User> checkUserExists = userRepository.findByUsername(formRegister.getUsername());
             if (checkUserExists.isPresent()) {
-                return new Response<>(410, "Date Already Exists", null);
+                return new Response<>(410, "Data Already Exists", null);
             }
             Set<Role> roles = new HashSet<>();
             formRegister.getRoles().forEach(role -> {
@@ -114,6 +120,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response<?> changePassword(FormChangePassword formChangePassword) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         try {
             User user = userRepository.findById(formChangePassword.getId()).get();
             boolean isPasswordMatch = passwordEncoder.matches(formChangePassword.getCurrentPassword(), user.getPassword());

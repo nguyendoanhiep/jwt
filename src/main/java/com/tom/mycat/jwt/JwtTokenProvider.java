@@ -4,10 +4,8 @@ import com.tom.mycat.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 
@@ -30,7 +28,7 @@ public class JwtTokenProvider {
                 .signWith(signingKey)
                 .compact();
     }
-    public String getUserIdFromJWT(String token) {
+    public String getUsernameFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(signingKey)
                 .parseClaimsJws(token)
