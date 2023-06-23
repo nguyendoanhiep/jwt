@@ -63,6 +63,9 @@ public class UserServiceImpl implements UserService {
                     .username(formRegister.getUsername())
                     .password(passwordEncoder.encode(formRegister.getPassword()))
                     .roles(roles)
+                    .status(1)
+                    .createDate(new Date())
+                    .modifiedDate(new Date())
                     .build();
             userRepository.save(user);
             return new Response<>(200, "Success", null);
@@ -102,12 +105,11 @@ public class UserServiceImpl implements UserService {
                     .username(userDto.getUsername())
                     .password(userDto.getPassword())
                     .email(userDto.getEmail())
-                    .avatar(userDto.getAvatar())
+                    .image_id(userDto.getImage_id())
                     .age(userDto.getAge())
                     .gender(userDto.getGender())
                     .city(userDto.getCity())
                     .status(userDto.getStatus())
-                    .roles(userDto.getRoles())
                     .build();
             userRepository.save(user);
             return new Response<>(200, "Success", null);
@@ -120,7 +122,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response<?> changePassword(FormChangePassword formChangePassword) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         try {
             User user = userRepository.findById(formChangePassword.getId()).get();
             boolean isPasswordMatch = passwordEncoder.matches(formChangePassword.getCurrentPassword(), user.getPassword());

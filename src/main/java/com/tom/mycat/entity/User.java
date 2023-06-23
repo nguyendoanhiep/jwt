@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,31 +24,41 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="id")
+    @Column(name = "id")
     private Long id;
-    @Column(name ="name")
+    @Column(name = "name")
     private String name;
-    @Column(name ="username")
+    @Column(name = "username", nullable = false)
     private String username;
-    @Column(name ="password")
+    @Column(name = "password", nullable = false)
     private String password;
-    @Column(name ="email")
+    @Column(name = "number_phone")
+    private String numberPhone;
+    @Column(name = "email")
     private String email;
-    @Column(name ="avatar")
-    private String avatar;
-    @Column(name ="age")
+    @Column(name = "age")
     private Integer age;
-    @Column(name ="gender")
+    @Column(name = "gender")
     private String gender;
-    @Column(name ="city")
+    @Column(name = "city")
     private String city;
-    @Column(name ="status")
+    @Column(name = "status", nullable = false)
     private Integer status;
+    @Column(name = "create_date", nullable = false)
+    private Date createDate;
+    @Column(name = "modified_date", nullable = false)
+    private Date modifiedDate;
+    @Column(name = "image_id")
+    private Long image_id;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
+    @OneToOne
+    @JoinColumn(name = "image_id", referencedColumnName = "id", updatable = false, insertable = false)
+    private Image image;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
