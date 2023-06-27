@@ -14,6 +14,7 @@ import com.tom.mycat.repository.UserRepository;
 import com.tom.mycat.response.Response;
 import com.tom.mycat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,6 +41,11 @@ public class UserServiceImpl implements UserService {
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Override
+    public Response<?> getAll(Pageable pageable) {
+        return new Response<>(200, "Success", userRepository.findAll(pageable));
+    }
 
     @Override
     public Response<?> register(FormRegister formRegister) {

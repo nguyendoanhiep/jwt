@@ -8,11 +8,8 @@ import com.tom.mycat.entity.dto.UserDto;
 import com.tom.mycat.response.Response;
 import com.tom.mycat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.security.PermitAll;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -20,6 +17,12 @@ import javax.annotation.security.PermitAll;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @GetMapping("/getAll")
+    public Response<?> getAll(@RequestParam int page,
+                              @RequestParam int size) {
+        return userService.getAll(PageRequest.of(page - 1, size));
+    }
 
     @PostMapping("/register")
     public Response<?> register(@RequestBody FormRegister formRegister) {

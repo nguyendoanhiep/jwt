@@ -5,8 +5,11 @@ import com.tom.mycat.entity.dto.FormRegister;
 import com.tom.mycat.entity.dto.UserDto;
 import com.tom.mycat.entity.dto.FormLogin;
 import com.tom.mycat.response.Response;
+import org.springframework.data.domain.Pageable;
 
 public interface UserService {
+    Response<?> getAll(Pageable pageable);
+
     Response<?> register(FormRegister formRegister);
     Response<?> login(FormLogin formLogin);
     Response<?> editUser(UserDto userDto);

@@ -1,5 +1,6 @@
 package com.tom.mycat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -50,16 +51,17 @@ public class User implements UserDetails {
     private Date modifiedDate;
     @Column(name = "image_id")
     private Long image_id;
+    @OneToOne
+    @JoinColumn(name = "image_id", referencedColumnName = "id", updatable = false, insertable = false)
+    private Image image;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
-    @OneToOne
-    @JoinColumn(name = "image_id", referencedColumnName = "id", updatable = false, insertable = false)
-    private Image image;
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().toString()))
@@ -67,21 +69,25 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
