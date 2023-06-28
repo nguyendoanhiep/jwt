@@ -9,9 +9,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FormRegister {
-    private String name;
-    private String email;
     private String username;
     private String password;
+    private String numberPhone;
+    private String fullName;
     private Set<String> roles;
 }

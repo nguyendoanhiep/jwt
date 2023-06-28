@@ -68,6 +68,8 @@ public class UserServiceImpl implements UserService {
             User user = User.builder()
                     .username(formRegister.getUsername())
                     .password(passwordEncoder.encode(formRegister.getPassword()))
+                    .numberPhone(formRegister.getNumberPhone())
+                    .name(formRegister.getFullName())
                     .roles(roles)
                     .status(1)
                     .createDate(new Date())
