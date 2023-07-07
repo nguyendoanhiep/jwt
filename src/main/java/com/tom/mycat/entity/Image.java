@@ -22,10 +22,12 @@ public class Image {
     @Column(name = "name")
     private String name;
     @Column(name = "url_image")
-    private String url_image;
+    private String urlImage;
     @Column(name = "create_date")
     private Date createDate;
     @Column(name = "modified_date")
     private Date modifiedDate;
+    @Column(name = "priority")
+    private Integer priority;
 
 }
