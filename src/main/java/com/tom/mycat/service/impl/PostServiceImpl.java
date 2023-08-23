@@ -16,11 +16,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public Response<?> getAll(Pageable pageable, String search) {
       try{
-          return new Response<>(200,"Success",postRepository.getAll(pageable,search));
-      }catch (Exception e){
-          log.info(e.getMessage());
-          return new Response<>(400,"Fail",null);
-
+          return Response.SUCCESS(postRepository.getAll(pageable,search));
+      } catch (Exception e) {
+          e.printStackTrace();
+          return Response.FAIL();
       }
     }
 }

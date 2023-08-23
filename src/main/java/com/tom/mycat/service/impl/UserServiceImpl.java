@@ -21,10 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -44,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response<?> getAll(Pageable pageable) {
-        return new Response<>(200, "Success", userRepository.findAll(pageable));
+        return Response.SUCCESS(userRepository.findAll(pageable));
     }
 
     @Override
@@ -76,10 +73,10 @@ public class UserServiceImpl implements UserService {
                     .modifiedDate(new Date())
                     .build();
             userRepository.save(user);
-            return new Response<>(200, "Success", null);
+            return Response.SUCCESS();
         } catch (Exception e) {
             e.printStackTrace();
-            return new Response<>(400, "Fail", null);
+            return Response.FAIL();
         }
     }
 
@@ -120,10 +117,10 @@ public class UserServiceImpl implements UserService {
                     .status(userDto.getStatus())
                     .build();
             userRepository.save(user);
-            return new Response<>(200, "Success", null);
+            return Response.SUCCESS();
         } catch (Exception e) {
             e.printStackTrace();
-            return new Response<>(400, "Fail", null);
+            return Response.FAIL();
         }
 
     }
@@ -138,10 +135,10 @@ public class UserServiceImpl implements UserService {
             }
             user.setPassword(passwordEncoder.encode(formChangePassword.getNewPassword()));
             userRepository.save(user);
-            return new Response<>(200, "Success", null);
+            return Response.SUCCESS();
         } catch (Exception e) {
             e.printStackTrace();
-            return new Response<>(400, "Fail", null);
+            return Response.FAIL();
         }
     }
 }

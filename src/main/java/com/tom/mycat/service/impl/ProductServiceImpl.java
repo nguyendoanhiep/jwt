@@ -3,10 +3,12 @@ package com.tom.mycat.service.impl;
 import com.tom.mycat.entity.Product;
 import com.tom.mycat.entity.dto.ProductDto;
 import com.tom.mycat.repository.ProductRepository;
+import com.tom.mycat.response.Details;
 import com.tom.mycat.response.Response;
 import com.tom.mycat.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +22,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Response<?> getAll(Pageable pageable, String search) {
         try{
-            return new Response<>(200,"Success", productRepository.getAll(pageable,search));
+            return Response.SUCCESS(productRepository.getAll(pageable,search));
         }catch (Exception e){
             log.info(e.getMessage());
-            return new Response<>(400,"Fail", null);
+            return Response.FAIL();
         }
     }
 
@@ -41,10 +43,11 @@ public class ProductServiceImpl implements ProductService {
                     .modifiedDate(new Date())
                     .images(dto.getImages())
                     .build();
-            return new Response<>(200,"Success", productRepository.save(product));
+            productRepository.save(product);
+            return Response.SUCCESS();
         }catch (Exception e){
             log.info(e.getMessage());
-            return new Response<>(400,"Fail", null);
+            return Response.FAIL();
         }
     }
 }

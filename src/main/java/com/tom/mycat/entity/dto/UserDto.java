@@ -23,4 +23,9 @@ public class UserDto {
     private Date createDate;
     private Date modifiedDate;
     private Long image_id;
+
+    public UserDto(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
