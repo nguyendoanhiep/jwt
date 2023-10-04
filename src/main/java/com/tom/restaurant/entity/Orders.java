@@ -38,4 +38,9 @@ public class Orders {
             joinColumns = {@JoinColumn(name = "orders_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
     private List<Product> products;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "orders_discount_code",
+            joinColumns = {@JoinColumn(name = "orders_id")},
+            inverseJoinColumns = {@JoinColumn(name = "discount_code_id")})
+    private List<DiscountCode> discountCodes;
 }
