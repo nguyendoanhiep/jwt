@@ -1,5 +1,6 @@
 package com.tom.restaurant.service.impl;
 
+import com.tom.restaurant.entity.CustomUserDetails;
 import com.tom.restaurant.entity.Role;
 import com.tom.restaurant.entity.User;
 import com.tom.restaurant.entity.dto.FormChangePassword;
@@ -87,7 +88,7 @@ public class UserServiceImpl implements UserService {
                             formLogin.getPassword()
                     ));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = jwtTokenProvider.generateToken((User) authentication.getPrincipal());
+            String jwt = jwtTokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
             return Response.SUCCESS(jwt);
         } catch (Exception e) {
             e.printStackTrace();

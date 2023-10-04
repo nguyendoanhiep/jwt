@@ -1,5 +1,6 @@
 package com.tom.restaurant.jwt;
 
+import com.tom.restaurant.entity.CustomUserDetails;
 import com.tom.restaurant.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -16,12 +17,12 @@ public class JwtTokenProvider {
 
     private final long JWT_EXPIRATION = 604800000L;
 
-    public String generateToken(User user) {
+    public String generateToken(CustomUserDetails userDetails) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
         return Jwts.builder()
-                .claim("id", user.getId())
-                .claim("username", user.getUsername())
+                .claim("id", userDetails.getId())
+                .claim("username", userDetails.getUsername())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(signingKey)

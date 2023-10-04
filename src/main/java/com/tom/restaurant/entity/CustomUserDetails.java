@@ -10,11 +10,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 @Data
 public class CustomUserDetails implements UserDetails {
+    private Long id;
     private String username;
     private String password;
     private Set<Role> roles;
 
-    public CustomUserDetails(String username, String password, Set<Role> roles) {
+    public CustomUserDetails(Long id ,String username, String password, Set<Role> roles) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.roles = roles;

@@ -50,8 +50,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .anonymous()
-                .and()
-                .cors().and().csrf().disable()
+                .and().cors()
+                .and().csrf()
+                .disable()
                 .authorizeRequests()
                 .antMatchers("/user/register",
                         "/user/login",

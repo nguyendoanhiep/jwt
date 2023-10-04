@@ -12,6 +12,5 @@ public class FormRegister {
     private String username;
     private String password;
     private String numberPhone;
-    private String fullName;
     private Set<String> roles;
 }

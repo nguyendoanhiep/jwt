@@ -21,6 +21,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (!user.isPresent()) {
             throw new UsernameNotFoundException(username);
         }
-        return new CustomUserDetails(user.get().getUsername(),user.get().getPassword(),user.get().getRoles());
+        return new CustomUserDetails(user.get().getId(),user.get().getUsername(),user.get().getPassword(),user.get().getRoles());
     }
 }
