@@ -10,6 +10,4 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findByUsername(String username);
-    @Query("select new com.tom.restaurant.entity.dto.UserDto(u.id,u.name) from User u join Image i where u.imageId=i.id")
-    List<UserDto> getList();
 }

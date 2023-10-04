@@ -1,6 +1,7 @@
 package com.tom.restaurant.service.impl;
 
 import com.tom.restaurant.entity.User;
+import com.tom.restaurant.entity.CustomUserDetails;
 import com.tom.restaurant.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (!user.isPresent()) {
             throw new UsernameNotFoundException(username);
         }
-        return user.get();
+        return new CustomUserDetails(user.get().getUsername(),user.get().getPassword(),user.get().getRoles());
     }
 }

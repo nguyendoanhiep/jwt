@@ -22,7 +22,6 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .claim("id", user.getId())
                 .claim("username", user.getUsername())
-                .claim("email", user.getEmail())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(signingKey)

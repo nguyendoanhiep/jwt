@@ -36,8 +36,6 @@ public class UserServiceImpl implements UserService {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtTokenProvider jwtTokenProvider;
-    @Autowired
-    JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Override
     public Response<?> getAll(Pageable pageable) {
@@ -60,7 +58,6 @@ public class UserServiceImpl implements UserService {
                     .username(formRegister.getUsername())
                     .password(passwordEncoder.encode(formRegister.getPassword()))
                     .numberPhone(formRegister.getNumberPhone())
-                    .name(formRegister.getFullName())
                     .roles(roles)
                     .status(1)
                     .createDate(new Date())
@@ -106,11 +103,6 @@ public class UserServiceImpl implements UserService {
                     .name(userDto.getName())
                     .username(userDto.getUsername())
                     .password(userDto.getPassword())
-                    .email(userDto.getEmail())
-                    .imageId(userDto.getImageId())
-                    .age(userDto.getAge())
-                    .gender(userDto.getGender())
-                    .city(userDto.getCity())
                     .status(userDto.getStatus())
                     .build();
             userRepository.save(user);

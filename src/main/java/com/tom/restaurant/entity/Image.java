@@ -21,6 +21,8 @@ public class Image {
     private Long id;
     @Column(name = "name")
     private String name;
+    @Column(name = "status", nullable = false)
+    private Integer status;
     @Column(name = "url_image")
     private String urlImage;
     @Column(name = "create_date")
