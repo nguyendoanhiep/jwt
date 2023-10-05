@@ -1,5 +1,6 @@
 package com.tom.restaurant.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,8 +9,9 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "discount_code")
-public class DiscountCode {
+@Table(name = "voucher_code")
+@Builder
+public class VoucherCode {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +27,10 @@ public class DiscountCode {
     private Integer status;
     @Column(name = "user_create_id")
     private Long userCreateId;
-    @Column(name = "discount_start_date", nullable = false)
-    private Date discountStartDate;
-    @Column(name = "discount_expiration_date", nullable = false)
-    private Date discountExpirationDate;
+    @Column(name = "voucher_start_date", nullable = false)
+    private Date voucherStartDate;
+    @Column(name = "voucher_expiration_date", nullable = false)
+    private Date voucherExpirationDate;
     @Column(name = "create_date", nullable = false)
     private Date createDate;
     @Column(name = "modified_date", nullable = false)

@@ -1,5 +1,6 @@
 package com.tom.restaurant.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "orders")
+@Builder
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +21,7 @@ public class Orders {
     @Column(name = "customer_id")
     private Long customerId;
     @Column(name = "number_phone")
-    private Long numberPhone;
-    @Column(name = "full_name")
-    private Long fullName;
+    private String numberPhone;
     @Column(name = "original_price")
     private Long originalPrice;
     @Column(name = "discount_amount")
@@ -38,9 +38,10 @@ public class Orders {
             joinColumns = {@JoinColumn(name = "orders_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
     private List<Product> products;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "orders_discount_code",
             joinColumns = {@JoinColumn(name = "orders_id")},
             inverseJoinColumns = {@JoinColumn(name = "discount_code_id")})
-    private List<DiscountCode> discountCodes;
+    private List<VoucherCode> voucherCodes;
 }

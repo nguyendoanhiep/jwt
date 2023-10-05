@@ -1,5 +1,6 @@
 package com.tom.restaurant.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "customer")
+@Builder
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
