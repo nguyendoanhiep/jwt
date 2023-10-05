@@ -1,7 +1,6 @@
 package com.tom.restaurant.jwt;
 
 import com.tom.restaurant.entity.CustomUserDetails;
-import com.tom.restaurant.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;

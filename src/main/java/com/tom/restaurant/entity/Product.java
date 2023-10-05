@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -31,6 +32,7 @@ public class Product {
     @Column(name = "type")
     private Integer type;
     @Column(name = "create_date", nullable = false)
+    @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createDate;
     @Column(name = "modified_date", nullable = false)
     private Date modifiedDate;

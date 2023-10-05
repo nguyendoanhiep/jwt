@@ -1,8 +1,9 @@
 package com.tom.restaurant.service.impl;
 
 import com.tom.restaurant.entity.VoucherCode;
-import com.tom.restaurant.entity.dto.OrdersDto;
 import com.tom.restaurant.entity.dto.VoucherCodeDto;
+import com.tom.restaurant.repository.CustomerRepository;
+import com.tom.restaurant.repository.ProductRepository;
 import com.tom.restaurant.repository.VoucherCodeRepository;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.VoucherCodeService;
@@ -17,6 +18,10 @@ import java.util.Date;
 public class VoucherCodeServiceImp implements VoucherCodeService {
     @Autowired
     VoucherCodeRepository voucherCodeRepository;
+    @Autowired
+    CustomerRepository customerRepository;
+    @Autowired
+    ProductRepository productRepository;
 
     @Override
     public Response<?> getAll(Pageable pageable) {
@@ -41,10 +46,9 @@ public class VoucherCodeServiceImp implements VoucherCodeService {
                     .status(voucherCodeDto.getStatus())
                     .voucherStartDate(voucherCodeDto.getVoucherStartDate())
                     .voucherExpirationDate(voucherCodeDto.getVoucherExpirationDate())
-                    .createDate(voucherCodeDto.getCreateDate())
                     .modifiedDate(new Date())
-                    .customers(voucherCodeDto.getCustomers())
-                    .products(voucherCodeDto.getProducts())
+                    .customers(customerRepository.findByListId(voucherCodeDto.getListCustomerId()))
+                    .products(productRepository.findByListId(voucherCodeDto.getListProductId()))
                     .build());
             return Response.SUCCESS();
         } catch (Exception e) {

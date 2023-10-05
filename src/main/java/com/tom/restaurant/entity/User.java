@@ -1,19 +1,13 @@
 package com.tom.restaurant.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
+import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -32,20 +26,19 @@ public class User  {
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "number_phone")
+    @Column(name = "number_phone" , length = 20)
     private String numberPhone;
-    @Column(name = "customer_id")
-    private Long customerId;
     @Column(name = "status", nullable = false)
     private Integer status;
     @Column(name = "create_date", nullable = false)
+    @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createDate;
     @Column(name = "modified_date", nullable = false)
     private Date modifiedDate;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id", updatable = false, insertable = false)
+    @JoinColumn(name = "number_phone", referencedColumnName = "number_phone", updatable = false, insertable = false)
     private Customer customer;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})

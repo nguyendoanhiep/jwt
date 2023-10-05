@@ -37,7 +37,6 @@ public class ProductServiceImpl implements ProductService {
                     .type(dto.getType())
                     .status(dto.getStatus())
                     .description(dto.getDescription())
-                    .createDate(dto.getCreateDate())
                     .modifiedDate(new Date())
                     .images(dto.getImages())
                     .build();

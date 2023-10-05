@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -29,6 +30,7 @@ public class Post {
     @Column(name = "user_id")
     private Long userId;
     @Column(name = "create_date", nullable = false)
+    @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createDate;
     @Column(name = "modified_date", nullable = false)
     private Date modifiedDate;

@@ -13,8 +13,6 @@ public class ProductDto {
     private Long price;
     private Integer status;
     private Integer type;
-    private Date createDate;
-    private Date modifiedDate;
     private Long userId;
     private List<Image> images;
 }

@@ -20,12 +20,5 @@ public class UserDto {
     private String gender;
     private String city;
     private Integer status;
-    private Date createDate;
-    private Date modifiedDate;
     private Long imageId;
-
-    public UserDto(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }

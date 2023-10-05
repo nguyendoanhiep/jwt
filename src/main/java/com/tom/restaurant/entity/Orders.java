@@ -2,6 +2,7 @@ package com.tom.restaurant.entity;
 
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,6 +23,8 @@ public class Orders {
     private Long customerId;
     @Column(name = "number_phone")
     private String numberPhone;
+    @Column(name = "voucher_code_id")
+    private Long voucherCodeId;
     @Column(name = "original_price")
     private Long originalPrice;
     @Column(name = "discount_amount")
@@ -29,6 +32,7 @@ public class Orders {
     @Column(name = "final_price")
     private Long finalPrice;
     @Column(name = "create_date", nullable = false)
+    @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createDate;
     @Column(name = "modified_date", nullable = false)
     private Date modifiedDate;
@@ -39,9 +43,7 @@ public class Orders {
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
     private List<Product> products;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "orders_discount_code",
-            joinColumns = {@JoinColumn(name = "orders_id")},
-            inverseJoinColumns = {@JoinColumn(name = "discount_code_id")})
-    private List<VoucherCode> voucherCodes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "voucher_code_id", referencedColumnName = "id", updatable = false, insertable = false)
+    private VoucherCode voucherCode;
 }
