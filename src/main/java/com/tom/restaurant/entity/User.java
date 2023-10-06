@@ -22,24 +22,32 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "username", nullable = false)
     private String username;
+
     @Column(name = "password", nullable = false)
     private String password;
+
     @Column(name = "number_phone" , length = 20 , nullable = false , unique = true)
     private String numberPhone;
+
     @Column(name = "status", nullable = false)
     private Integer status;
+
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "create_date", nullable = false)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createDate;
+
     @Column(name = "modified_date", nullable = false)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "number_phone", referencedColumnName = "number_phone", updatable = false, insertable = false)
     private Customer customer;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
