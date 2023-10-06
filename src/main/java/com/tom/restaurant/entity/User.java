@@ -32,10 +32,10 @@ public class User implements Serializable {
     private Integer status;
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "create_date", nullable = false)
-    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createDate;
     @Column(name = "modified_date", nullable = false)
-    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "number_phone", referencedColumnName = "number_phone", updatable = false, insertable = false)

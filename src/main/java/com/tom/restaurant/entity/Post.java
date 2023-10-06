@@ -23,21 +23,28 @@ public class Post implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "name", nullable = false)
     private String name;
+
     @Column(name = "content")
     private String content;
+
     @Column(name = "status" , nullable = false)
     private Integer status;
+
     @Column(name = "user_id")
     private Long userId;
+
     @Column(name = "create_date", nullable = false)
     @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createDate;
+
     @Column(name = "modified_date", nullable = false)
     @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     private Date modifiedDate;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "post_image",
             joinColumns = {@JoinColumn(name = "post_id")},

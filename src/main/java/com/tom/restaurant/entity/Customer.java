@@ -23,31 +23,43 @@ public class Customer implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "number_phone",length = 20 , unique = true)
     private String numberPhone;
+
     @Column(name = "email")
     private String email;
+
     @Column(name = "age")
     private Integer age;
+
     @Column(name = "gender")
     private String gender;
+
     @Column(name = "city")
     private String city;
+
     @Column(name = "status", nullable = false)
     private Integer status;
+
     @Column(name = "image_id")
     private Long imageId;
+
     @Column(name = "loyalty_points")
     private Long loyaltyPoints;
+
     @Column(name = "create_date", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createDate;
+
     @Column(name = "modified_date", nullable = false)
-    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id", referencedColumnName = "id", updatable = false, insertable = false)
     private Image image;

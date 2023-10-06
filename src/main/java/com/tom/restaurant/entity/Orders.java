@@ -19,24 +19,32 @@ public class Orders implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "code", nullable = false)
     private String code;
+
     @Column(name = "number_phone")
     private String numberPhone;
+
     @Column(name = "voucher_code_id")
     private Long voucherCodeId;
+
     @Column(name = "original_price")
     private Long originalPrice;
+
     @Column(name = "discount_amount")
     private Long discountAmount;
+
     @Column(name = "final_price")
     private Long finalPrice;
+
     @Column(name = "create_date", nullable = false)
-    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createDate;
+
     @Column(name = "modified_date", nullable = false)
-    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
 
     @ManyToMany(fetch = FetchType.LAZY)

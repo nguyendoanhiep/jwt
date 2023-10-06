@@ -22,19 +22,25 @@ public class Image implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "status", nullable = false)
     private Integer status;
+
     @Column(name = "url_image")
     private String urlImage;
+
     @Column(name = "create_date")
     @ColumnDefault("CURRENT_TIMESTAMP")
     @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     private Date createDate;
+
     @Column(name = "modified_date")
     @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     private Date modifiedDate;
+
     @Column(name = "priority")
     private Integer priority;
 

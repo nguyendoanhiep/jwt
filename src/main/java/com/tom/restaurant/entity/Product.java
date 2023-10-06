@@ -23,25 +23,34 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "name", nullable = false)
     private String name;
+
     @Column(name = "description")
     private String description;
+
     @Column(name = "price")
     private Long price;
+
     @Column(name = "status" , nullable = false)
     private Integer status;
+
     @Column(name = "type")
     private Integer type;
+
     @Column(name = "create_date", nullable = false)
-    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createDate;
+
     @Column(name = "modified_date", nullable = false)
-    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
+
     @Column(name = "user_id")
     private Long userId;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "product_image",
             joinColumns = {@JoinColumn(name = "product_id")},

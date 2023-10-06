@@ -13,9 +13,9 @@ public class VoucherCodeDto {
     private Long value;
     private Integer status;
     private Long userCreateId;
-    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date voucherStartDate;
-    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date voucherExpirationDate;
     private List<Long> listCustomerId;
     private List<Long> listProductId;
