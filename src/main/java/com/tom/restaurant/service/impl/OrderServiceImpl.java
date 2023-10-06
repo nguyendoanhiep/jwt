@@ -52,7 +52,6 @@ public class OrderServiceImpl implements OrderService {
                         .numberPhone(ordersDto.getNumberPhone())
                         .status(1)
                         .loyaltyPoints(0L)
-                        .createDate(new Date())
                         .modifiedDate(new Date())
                         .build());
             } else {
@@ -60,12 +59,14 @@ public class OrderServiceImpl implements OrderService {
                 customerRepository.save(customer);
             }
             Optional<VoucherCode> voucherCode = voucherCodeRepository.findById(ordersDto.getVoucherCodeId());
-            voucherCode.ifPresent(code -> code.setStatus(0));
+            voucherCode.ifPresent(code -> {
+                code.setStatus(0);
+                voucherCodeRepository.save(code);
+            });
             orderRepository.save(Orders
                     .builder()
                     .id(ordersDto.getId())
-                    .code(ordersDto.getId() == null ? generateRandomChars() : ordersDto.getCode())
-                    .customerId(ordersDto.getCustomerId())
+                    .code(ordersDto.getId() == null ? generateRandomCode() : ordersDto.getCode())
                     .voucherCodeId(ordersDto.getVoucherCodeId())
                     .finalPrice(ordersDto.getFinalPrice())
                     .discountAmount(ordersDto.getDiscountAmount())
@@ -82,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private String generateRandomChars() {
+    private String generateRandomCode() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String timestamp = dateFormat.format(new Date());
         String candidateChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

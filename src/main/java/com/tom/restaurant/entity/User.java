@@ -1,11 +1,13 @@
 package com.tom.restaurant.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -15,25 +17,25 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User  {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name")
-    private String name;
     @Column(name = "username", nullable = false)
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "number_phone" , length = 20)
+    @Column(name = "number_phone" , length = 20 , nullable = false , unique = true)
     private String numberPhone;
     @Column(name = "status", nullable = false)
     private Integer status;
-    @Column(name = "create_date", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "create_date", nullable = false)
+    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     private Date createDate;
     @Column(name = "modified_date", nullable = false)
+    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     private Date modifiedDate;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "number_phone", referencedColumnName = "number_phone", updatable = false, insertable = false)

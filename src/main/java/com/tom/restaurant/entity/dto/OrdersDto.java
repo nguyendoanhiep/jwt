@@ -8,7 +8,6 @@ import java.util.List;
 public class OrdersDto {
     private Long id;
     private String code;
-    private Long customerId;
     private String numberPhone;
     private Long voucherCodeId;
     private Long originalPrice;

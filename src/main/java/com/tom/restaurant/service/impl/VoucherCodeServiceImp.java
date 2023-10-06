@@ -12,7 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 @Service
 public class VoucherCodeServiceImp implements VoucherCodeService {
@@ -40,12 +42,14 @@ public class VoucherCodeServiceImp implements VoucherCodeService {
             voucherCodeRepository.save(VoucherCode
                     .builder()
                     .id(voucherCodeDto.getId())
-                    .code(voucherCodeDto.getCode())
+                    .code(voucherCodeDto.getId() == null ? generateRandomCode() : voucherCodeDto.getCode())
                     .name(voucherCodeDto.getName())
                     .value(voucherCodeDto.getValue())
+                    .userCreateId(voucherCodeDto.getUserCreateId())
                     .status(voucherCodeDto.getStatus())
                     .voucherStartDate(voucherCodeDto.getVoucherStartDate())
                     .voucherExpirationDate(voucherCodeDto.getVoucherExpirationDate())
+                    .createDate(new Date())
                     .modifiedDate(new Date())
                     .customers(customerRepository.findByListId(voucherCodeDto.getListCustomerId()))
                     .products(productRepository.findByListId(voucherCodeDto.getListProductId()))
@@ -55,5 +59,19 @@ public class VoucherCodeServiceImp implements VoucherCodeService {
             e.printStackTrace();
             return Response.FAIL();
         }
+    }
+
+    private String generateRandomCode() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String timestamp = dateFormat.format(new Date());
+        String candidateChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+
+        for (int i = 0; i < 3; i++) {
+            int index = random.nextInt(candidateChars.length());
+            sb.append(candidateChars.charAt(index));
+        }
+        return sb.append(timestamp).toString();
     }
 }

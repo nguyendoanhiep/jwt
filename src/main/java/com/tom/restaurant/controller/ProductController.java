@@ -5,7 +5,10 @@ import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.PermitAll;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -23,7 +26,8 @@ public class ProductController {
     }
 
     @PostMapping("/addOrUpdate")
-    public Response<?> register(@RequestBody ProductDto dto) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public Response<?> addOrUpdate(@RequestBody ProductDto dto) {
         return productService.addOrUpdate(dto);
     }
 }

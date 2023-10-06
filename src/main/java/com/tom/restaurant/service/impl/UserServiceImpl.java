@@ -1,14 +1,14 @@
 package com.tom.restaurant.service.impl;
 
-import com.tom.restaurant.entity.CustomUserDetails;
-import com.tom.restaurant.entity.Role;
-import com.tom.restaurant.entity.User;
+import com.tom.restaurant.entity.*;
 import com.tom.restaurant.entity.dto.FormChangePassword;
 import com.tom.restaurant.entity.dto.FormRegister;
 import com.tom.restaurant.entity.dto.UserDto;
 import com.tom.restaurant.entity.dto.FormLogin;
 import com.tom.restaurant.jwt.JwtAuthenticationFilter;
 import com.tom.restaurant.jwt.JwtTokenProvider;
+import com.tom.restaurant.repository.CartRepository;
+import com.tom.restaurant.repository.CustomerRepository;
 import com.tom.restaurant.repository.RoleRepository;
 import com.tom.restaurant.repository.UserRepository;
 import com.tom.restaurant.response.Details;
@@ -37,6 +37,10 @@ public class UserServiceImpl implements UserService {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    CustomerRepository customerRepository;
+    @Autowired
+    CartRepository cartRepository;
 
     @Override
     public Response<?> getAll(Pageable pageable) {
@@ -52,10 +56,10 @@ public class UserServiceImpl implements UserService {
             }
             Set<Role> roles = new HashSet<>();
             formRegister.getRoles().forEach(data -> {
-                        Role role = roleRepository.findByName(data).orElseThrow(() -> new RuntimeException("Role not found"));
-                        roles.add(role);
-                });
-            User user = User.builder()
+                Role role = roleRepository.findByName(data).orElseThrow(() -> new RuntimeException("Role not found"));
+                roles.add(role);
+            });
+            userRepository.save(User.builder()
                     .username(formRegister.getUsername())
                     .password(passwordEncoder.encode(formRegister.getPassword()))
                     .numberPhone(formRegister.getNumberPhone())
@@ -63,10 +67,25 @@ public class UserServiceImpl implements UserService {
                     .status(1)
                     .createDate(new Date())
                     .modifiedDate(new Date())
-                    .build();
-            userRepository.save(user);
+                    .build());
+            Customer cs = customerRepository.save(Customer
+                    .builder()
+                    .id(null)
+                    .numberPhone(formRegister.getNumberPhone())
+                    .status(1)
+                    .loyaltyPoints(0L)
+                    .createDate(new Date())
+                    .modifiedDate(new Date())
+                    .build());
+            cartRepository.save(Cart.builder()
+                    .customerId(cs.getId())
+                    .numberPhone(formRegister.getNumberPhone())
+                    .finalPrice(0L)
+                    .originalPrice(0L)
+                    .discountAmount(0L)
+                    .build());
             return Response.SUCCESS();
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             e.printStackTrace();
             return Response.FAIL(Details.ROLE_NOT_FOUND);
         } catch (Exception e) {
@@ -101,10 +120,10 @@ public class UserServiceImpl implements UserService {
         try {
             User user = User.builder()
                     .id(userDto.getId())
-                    .name(userDto.getName())
                     .username(userDto.getUsername())
                     .password(userDto.getPassword())
                     .status(userDto.getStatus())
+                    .modifiedDate(new Date())
                     .build();
             userRepository.save(user);
             return Response.SUCCESS();
@@ -120,7 +139,7 @@ public class UserServiceImpl implements UserService {
         try {
             User user = userRepository.findById(formChangePassword.getId()).get();
             boolean isPasswordMatch = passwordEncoder.matches(formChangePassword.getCurrentPassword(), user.getPassword());
-            if(!isPasswordMatch){
+            if (!isPasswordMatch) {
                 return Response.FAIL(Details.PASSWORD_NO_MATCH);
             }
             user.setPassword(passwordEncoder.encode(formChangePassword.getNewPassword()));

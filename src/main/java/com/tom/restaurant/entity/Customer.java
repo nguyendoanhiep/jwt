@@ -1,5 +1,6 @@
 package com.tom.restaurant.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +25,7 @@ public class Customer implements Serializable {
     private Long id;
     @Column(name = "name")
     private String name;
-    @Column(name = "number_phone",length = 20)
+    @Column(name = "number_phone",length = 20 , unique = true)
     private String numberPhone;
     @Column(name = "email")
     private String email;
@@ -42,15 +43,12 @@ public class Customer implements Serializable {
     private Long loyaltyPoints;
     @Column(name = "create_date", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
+    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     private Date createDate;
     @Column(name = "modified_date", nullable = false)
+    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     private Date modifiedDate;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id", referencedColumnName = "id", updatable = false, insertable = false)
     private Image image;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "customer_orders",
-            joinColumns = {@JoinColumn(name = "customer_id")},
-            inverseJoinColumns = {@JoinColumn(name = "orders_id")})
-    private List<Orders> orders;
 }

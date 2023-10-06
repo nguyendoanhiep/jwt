@@ -1,10 +1,12 @@
 package com.tom.restaurant.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,15 +14,13 @@ import java.util.List;
 @Data
 @Table(name = "orders")
 @Builder
-public class Orders {
+public class Orders implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column(name = "code", nullable = false)
     private String code;
-    @Column(name = "customer_id")
-    private Long customerId;
     @Column(name = "number_phone")
     private String numberPhone;
     @Column(name = "voucher_code_id")
@@ -32,9 +32,11 @@ public class Orders {
     @Column(name = "final_price")
     private Long finalPrice;
     @Column(name = "create_date", nullable = false)
+    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createDate;
     @Column(name = "modified_date", nullable = false)
+    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     private Date modifiedDate;
 
     @ManyToMany(fetch = FetchType.LAZY)
