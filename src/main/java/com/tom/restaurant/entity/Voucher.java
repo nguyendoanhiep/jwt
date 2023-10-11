@@ -14,11 +14,11 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "voucher_code")
+@Table(name = "voucher")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class VoucherCode implements Serializable {
+public class Voucher implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,14 +58,14 @@ public class VoucherCode implements Serializable {
     private Date modifiedDate;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "voucher_code_customer",
-            joinColumns = {@JoinColumn(name = "voucher_code_id")},
+    @JoinTable(name = "voucher_customer",
+            joinColumns = {@JoinColumn(name = "voucher_id")},
             inverseJoinColumns = {@JoinColumn(name = "customer_id")})
     private List<Customer> customers;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "voucher_code_product",
-            joinColumns = {@JoinColumn(name = "voucher_code_id")},
+    @JoinTable(name = "voucher_product",
+            joinColumns = {@JoinColumn(name = "voucher_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
     private List<Product> products;
 

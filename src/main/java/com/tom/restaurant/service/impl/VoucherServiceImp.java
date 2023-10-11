@@ -1,12 +1,12 @@
 package com.tom.restaurant.service.impl;
 
-import com.tom.restaurant.entity.VoucherCode;
-import com.tom.restaurant.entity.dto.VoucherCodeDto;
+import com.tom.restaurant.entity.Voucher;
+import com.tom.restaurant.entity.dto.VoucherDto;
 import com.tom.restaurant.repository.CustomerRepository;
 import com.tom.restaurant.repository.ProductRepository;
-import com.tom.restaurant.repository.VoucherCodeRepository;
+import com.tom.restaurant.repository.VoucherRepository;
 import com.tom.restaurant.response.Response;
-import com.tom.restaurant.service.VoucherCodeService;
+import com.tom.restaurant.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,19 +17,19 @@ import java.util.Date;
 import java.util.Random;
 
 @Service
-public class VoucherCodeServiceImp implements VoucherCodeService {
+public class VoucherServiceImp implements VoucherService {
     @Autowired
-    VoucherCodeRepository voucherCodeRepository;
+    VoucherRepository voucherRepository;
     @Autowired
     CustomerRepository customerRepository;
     @Autowired
     ProductRepository productRepository;
 
     @Override
-    public Response<?> getAll(Pageable pageable) {
+    public Response<?> getAll(Pageable pageable, String name, String code, Integer status) {
         try {
-            Page<VoucherCode> listVoucherCode = voucherCodeRepository.findAll(pageable);
-            return Response.SUCCESS(listVoucherCode);
+            Page<Voucher> listVoucher = voucherRepository.getAll(pageable,name,code,status);
+            return Response.SUCCESS(listVoucher);
         } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL();
@@ -37,24 +37,24 @@ public class VoucherCodeServiceImp implements VoucherCodeService {
     }
 
     @Override
-    public Response<?> save(VoucherCodeDto voucherCodeDto) {
+    public Response<?> save(VoucherDto voucherDto) {
         try {
-            voucherCodeRepository.save(VoucherCode
+            voucherRepository.save(Voucher
                     .builder()
-                    .id(voucherCodeDto.getId())
-                    .code(voucherCodeDto.getId() == null ? generateRandomCode() : voucherCodeDto.getCode())
-                    .name(voucherCodeDto.getName())
-                    .value(voucherCodeDto.getValue())
-                    .userCreateId(voucherCodeDto.getUserCreateId())
-                    .status(voucherCodeDto.getStatus())
-                    .voucherStartDate(voucherCodeDto.getVoucherStartDate())
-                    .voucherExpirationDate(voucherCodeDto.getVoucherExpirationDate())
+                    .id(voucherDto.getId())
+                    .code(voucherDto.getId() == null ? generateRandomCode() : voucherDto.getCode())
+                    .name(voucherDto.getName())
+                    .value(voucherDto.getValue())
+                    .userCreateId(voucherDto.getUserCreateId())
+                    .status(voucherDto.getStatus())
+                    .voucherStartDate(voucherDto.getVoucherStartDate())
+                    .voucherExpirationDate(voucherDto.getVoucherExpirationDate())
                     .createDate(new Date())
                     .modifiedDate(new Date())
-                    .customers(customerRepository.findByListId(voucherCodeDto.getListCustomerId()))
-                    .products(productRepository.findByListId(voucherCodeDto.getListProductId()))
+                    .customers(customerRepository.findByListId(voucherDto.getListCustomerId()))
+                    .products(productRepository.findByListId(voucherDto.getListProductId()))
                     .build());
-            return Response.SUCCESS();
+            return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL();

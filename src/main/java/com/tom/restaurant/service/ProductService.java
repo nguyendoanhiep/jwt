@@ -5,6 +5,6 @@ import com.tom.restaurant.response.Response;
 import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
-    Response<?> getAll(Pageable pageable , String search);
+    Response<?> getAll(Pageable pageable , String search , Integer status , Long type);
     Response<?> addOrUpdate(ProductDto dto);
 }

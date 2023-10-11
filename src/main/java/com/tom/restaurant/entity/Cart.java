@@ -28,8 +28,8 @@ public class Cart implements Serializable {
     @Column(name = "number_phone" , length = 20 , unique = true)
     private String numberPhone;
 
-    @Column(name = "voucher_code_id")
-    private Long voucherCodeId;
+    @Column(name = "voucher_id")
+    private Long voucherId;
 
     @Column(name = "original_price")
     private Long originalPrice;
@@ -41,8 +41,8 @@ public class Cart implements Serializable {
     private Long finalPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "voucher_code_id", referencedColumnName = "id", updatable = false, insertable = false)
-    private VoucherCode voucherCode;
+    @JoinColumn(name = "voucher_id", referencedColumnName = "id", updatable = false, insertable = false)
+    private Voucher voucher;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "cart_product",

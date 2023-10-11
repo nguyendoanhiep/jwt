@@ -18,9 +18,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
     @Override
-    public Response<?> getAll(Pageable pageable, String search) {
+    public Response<?> getAll(Pageable pageable, String search, Integer status, Long type) {
         try{
-            return Response.SUCCESS(productRepository.getAll(pageable,search));
+            return Response.SUCCESS(productRepository.getAll(pageable,search,status,type));
         }catch (Exception e){
             log.info(e.getMessage());
             return Response.FAIL();
@@ -37,11 +37,12 @@ public class ProductServiceImpl implements ProductService {
                     .type(dto.getType())
                     .status(dto.getStatus())
                     .description(dto.getDescription())
+                    .createDate(dto.getCreateDate() != null ? dto.getCreateDate() : new Date())
                     .modifiedDate(new Date())
                     .images(dto.getImages())
                     .build();
             productRepository.save(product);
-            return Response.SUCCESS();
+            return Response.SUCCESS(true);
         }catch (Exception e){
             log.info(e.getMessage());
             return Response.FAIL();

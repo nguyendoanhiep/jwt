@@ -9,7 +9,7 @@ public class OrdersDto {
     private Long id;
     private String code;
     private String numberPhone;
-    private Long voucherCodeId;
+    private Long voucherId;
     private Long originalPrice;
     private Long discountAmount;
     private Long finalPrice;

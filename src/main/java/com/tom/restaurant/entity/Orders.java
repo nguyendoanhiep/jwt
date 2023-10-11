@@ -26,8 +26,8 @@ public class Orders implements Serializable {
     @Column(name = "number_phone")
     private String numberPhone;
 
-    @Column(name = "voucher_code_id")
-    private Long voucherCodeId;
+    @Column(name = "voucher_id")
+    private Long voucherId;
 
     @Column(name = "original_price")
     private Long originalPrice;
@@ -55,5 +55,5 @@ public class Orders implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "voucher_code_id", referencedColumnName = "id", updatable = false, insertable = false)
-    private VoucherCode voucherCode;
+    private Voucher voucher;
 }

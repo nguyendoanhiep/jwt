@@ -20,13 +20,15 @@ public class ProductController {
     @GetMapping("/getAll")
     public Response<?> getAll(@RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "10") int size,
-                              @RequestParam String search
+                              @RequestParam String search,
+                              @RequestParam Integer status,
+                              @RequestParam Long type
     ) {
-        return productService.getAll(PageRequest.of(page - 1, size), search);
+        return productService.getAll(PageRequest.of(page - 1, size), search,status,type);
     }
 
     @PostMapping("/addOrUpdate")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response<?> addOrUpdate(@RequestBody ProductDto dto) {
         return productService.addOrUpdate(dto);
     }

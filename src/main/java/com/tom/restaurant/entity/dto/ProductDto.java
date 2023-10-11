@@ -1,5 +1,6 @@
 package com.tom.restaurant.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tom.restaurant.entity.Image;
 import lombok.Data;
 import java.util.Date;
@@ -14,5 +15,7 @@ public class ProductDto {
     private Integer status;
     private Integer type;
     private Long userId;
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    private Date createDate;
     private List<Image> images;
 }

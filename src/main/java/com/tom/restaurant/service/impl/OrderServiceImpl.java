@@ -2,12 +2,12 @@ package com.tom.restaurant.service.impl;
 
 import com.tom.restaurant.entity.Customer;
 import com.tom.restaurant.entity.Orders;
-import com.tom.restaurant.entity.VoucherCode;
+import com.tom.restaurant.entity.Voucher;
 import com.tom.restaurant.entity.dto.OrdersDto;
 import com.tom.restaurant.repository.CustomerRepository;
 import com.tom.restaurant.repository.OrderRepository;
 import com.tom.restaurant.repository.ProductRepository;
-import com.tom.restaurant.repository.VoucherCodeRepository;
+import com.tom.restaurant.repository.VoucherRepository;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     ProductRepository productRepository;
     @Autowired
-    VoucherCodeRepository voucherCodeRepository;
+    VoucherRepository voucherRepository;
 
     @Override
     public Response<?> getAll(Pageable pageable) {
@@ -58,24 +58,24 @@ public class OrderServiceImpl implements OrderService {
                 customer.setLoyaltyPoints((customer.getLoyaltyPoints() + ordersDto.getFinalPrice()) / 100);
                 customerRepository.save(customer);
             }
-            Optional<VoucherCode> voucherCode = voucherCodeRepository.findById(ordersDto.getVoucherCodeId());
-            voucherCode.ifPresent(code -> {
+            Optional<Voucher> voucher = voucherRepository.findById(ordersDto.getVoucherId());
+            voucher.ifPresent(code -> {
                 code.setStatus(0);
-                voucherCodeRepository.save(code);
+                voucherRepository.save(code);
             });
             orderRepository.save(Orders
                     .builder()
                     .id(ordersDto.getId())
                     .code(ordersDto.getId() == null ? generateRandomCode() : ordersDto.getCode())
-                    .voucherCodeId(ordersDto.getVoucherCodeId())
+                    .voucherId(ordersDto.getVoucherId())
                     .finalPrice(ordersDto.getFinalPrice())
                     .discountAmount(ordersDto.getDiscountAmount())
                     .originalPrice(ordersDto.getOriginalPrice())
                     .modifiedDate(new Date())
                     .products(productRepository.findByListId(ordersDto.getListProductId()))
-                    .voucherCode(voucherCode.get())
+                    .voucher(voucher.orElse(null))
                     .build());
-            return Response.SUCCESS();
+            return Response.SUCCESS(true);
         } catch (
                 Exception e) {
             e.printStackTrace();

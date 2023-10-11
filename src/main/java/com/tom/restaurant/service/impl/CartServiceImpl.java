@@ -2,10 +2,10 @@ package com.tom.restaurant.service.impl;
 
 import com.tom.restaurant.entity.Cart;
 import com.tom.restaurant.entity.Product;
-import com.tom.restaurant.entity.VoucherCode;
+import com.tom.restaurant.entity.Voucher;
 import com.tom.restaurant.repository.CartRepository;
 import com.tom.restaurant.repository.ProductRepository;
-import com.tom.restaurant.repository.VoucherCodeRepository;
+import com.tom.restaurant.repository.VoucherRepository;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,12 @@ public class CartServiceImpl implements CartService {
     @Autowired
     ProductRepository productRepository;
     @Autowired
-    VoucherCodeRepository voucherCodeRepository;
+    VoucherRepository voucherRepository;
 
     @Override
-    public Response<?> showCart(Long customerId, Long voucherCodeId) {
+    public Response<?> showCart(Long customerId, Long voucherId) {
         try {
-            return Response.SUCCESS(cartRepository.showCart(customerId, voucherCodeId));
+            return Response.SUCCESS(cartRepository.showCart(customerId, voucherId));
         } catch (Exception e) {
             return Response.FAIL();
         }
@@ -58,17 +58,17 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Response<?> addOrDeleteVoucher(Long customerId, Long voucherCodeId) {
+    public Response<?> addOrDeleteVoucher(Long customerId, Long voucherId) {
         try {
             Cart cart = cartRepository.findByCustomerId(customerId);
-            VoucherCode voucherCode = voucherCodeRepository.findById(voucherCodeId).get();
-            if (cart.getVoucherCode() != null && cart.getVoucherCode().equals(voucherCode)) {
-                cart.setVoucherCodeId(null);
-                cart.setVoucherCode(null);
+            Voucher voucher = voucherRepository.findById(voucherId).get();
+            if (cart.getVoucher() != null && cart.getVoucher().equals(voucher)) {
+                cart.setVoucherId(null);
+                cart.setVoucher(null);
                 cart.setDiscountAmount(0L);
             } else {
-                cart.setVoucherCodeId(voucherCodeId);
-                cart.setVoucherCode(voucherCode);
+                cart.setVoucherId(voucherId);
+                cart.setVoucher(voucher);
             }
             calculateOrder(cart);
             cartRepository.save(cart);
@@ -79,8 +79,8 @@ public class CartServiceImpl implements CartService {
     }
 
     private void calculateOrder(Cart cart) {
-        if (cart.getVoucherCode() != null && cart.getVoucherCode().getValue() != null) {
-            cart.setDiscountAmount(cart.getVoucherCode().getValue());
+        if (cart.getVoucher() != null && cart.getVoucher().getValue() != null) {
+            cart.setDiscountAmount(cart.getVoucher().getValue());
         }
         if (!cart.getProducts().isEmpty()) {
             cart.setOriginalPrice(cart.getProducts().stream().mapToLong(Product::getPrice).sum());

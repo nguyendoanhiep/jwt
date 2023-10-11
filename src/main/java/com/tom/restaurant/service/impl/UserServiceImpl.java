@@ -68,23 +68,26 @@ public class UserServiceImpl implements UserService {
                     .createDate(new Date())
                     .modifiedDate(new Date())
                     .build());
-            Customer cs = customerRepository.save(Customer
-                    .builder()
-                    .id(null)
-                    .numberPhone(formRegister.getNumberPhone())
-                    .status(1)
-                    .loyaltyPoints(0L)
-                    .createDate(new Date())
-                    .modifiedDate(new Date())
-                    .build());
-            cartRepository.save(Cart.builder()
-                    .customerId(cs.getId())
-                    .numberPhone(formRegister.getNumberPhone())
-                    .finalPrice(0L)
-                    .originalPrice(0L)
-                    .discountAmount(0L)
-                    .build());
-            return Response.SUCCESS();
+            Customer customerIsExits = customerRepository.findByNumberPhone(formRegister.getNumberPhone());
+            if(customerIsExits == null){
+                Customer cs = customerRepository.save(Customer
+                        .builder()
+                        .id(null)
+                        .numberPhone(formRegister.getNumberPhone())
+                        .status(1)
+                        .loyaltyPoints(0L)
+                        .createDate(new Date())
+                        .modifiedDate(new Date())
+                        .build());
+                cartRepository.save(Cart.builder()
+                        .customerId(cs.getId())
+                        .numberPhone(formRegister.getNumberPhone())
+                        .finalPrice(0L)
+                        .originalPrice(0L)
+                        .discountAmount(0L)
+                        .build());
+            }
+            return Response.SUCCESS(true);
         } catch (RuntimeException e) {
             e.printStackTrace();
             return Response.FAIL(Details.ROLE_NOT_FOUND);
