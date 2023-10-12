@@ -7,6 +7,7 @@ import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,13 @@ import java.util.Date;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
+
     @Override
-    public Response<?> getAll(Pageable pageable, String search, Integer status, Long type) {
-        try{
-            return Response.SUCCESS(productRepository.getAll(pageable,search,status,type));
-        }catch (Exception e){
+    public Response<?> getAll(Pageable pageable, String name, Integer status, Integer type) {
+        try {
+            Page<Product> a = productRepository.getAll(pageable, name, status, type);
+            return Response.SUCCESS(productRepository.getAll(pageable, name, status, type));
+        } catch (Exception e) {
             log.info(e.getMessage());
             return Response.FAIL();
         }
@@ -29,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Response<?> addOrUpdate(ProductDto dto) {
-        try{
+        try {
             Product product = Product.builder()
                     .id(dto.getId())
                     .name(dto.getName())
@@ -43,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
                     .build();
             productRepository.save(product);
             return Response.SUCCESS(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.info(e.getMessage());
             return Response.FAIL();
         }

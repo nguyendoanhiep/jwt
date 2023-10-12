@@ -20,11 +20,11 @@ public class ProductController {
     @GetMapping("/getAll")
     public Response<?> getAll(@RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "10") int size,
-                              @RequestParam String search,
+                              @RequestParam String name,
                               @RequestParam Integer status,
-                              @RequestParam Long type
+                              @RequestParam Integer type
     ) {
-        return productService.getAll(PageRequest.of(page - 1, size), search,status,type);
+        return productService.getAll(PageRequest.of(page - 1, size), name,status,type);
     }
 
     @PostMapping("/addOrUpdate")
