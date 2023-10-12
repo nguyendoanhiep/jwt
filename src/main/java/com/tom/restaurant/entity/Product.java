@@ -36,7 +36,7 @@ public class Product implements Serializable {
     @Column(name = "status" , nullable = false)
     private Integer status;
 
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private Integer type;
 
     @Column(name = "create_date", nullable = false)
@@ -48,7 +48,7 @@ public class Product implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
     @ManyToMany(fetch = FetchType.LAZY)

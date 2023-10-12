@@ -24,7 +24,10 @@ public class ProductController {
                               @RequestParam Integer status,
                               @RequestParam Integer type
     ) {
-        return productService.getAll(PageRequest.of(page - 1, size), name,status,type);
+        return productService.getAll(PageRequest.of(page - 1, size),
+                name.equals("null") ? null : name,
+                status,
+                type);
     }
 
     @PostMapping("/addOrUpdate")

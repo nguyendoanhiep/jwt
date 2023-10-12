@@ -11,7 +11,10 @@ import java.util.List;
 
 @Repository
 public interface VoucherRepository extends JpaRepository<Voucher, Long> {
-    @Query(value = "select v from Voucher v where :name is null or v.name like :name and :code is null or v.code like :code and :status is null or v.status =:status")
+    @Query(value = "select v from Voucher v where " +
+            "(:name is null or v.name like %:name%) and " +
+            "(:code is null or v.code like :code%) and " +
+            "(:status is 0 or v.status =:status)")
     Page<Voucher> getAll(Pageable pageable, String name, String code, Integer status);
 
     @Query(value = "select v from Voucher v where v.id in (:listVoucherId)")

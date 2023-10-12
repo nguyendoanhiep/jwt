@@ -22,7 +22,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Response<?> getAll(Pageable pageable, String name, Integer status, Integer type) {
         try {
-            Page<Product> a = productRepository.getAll(pageable, name, status, type);
             return Response.SUCCESS(productRepository.getAll(pageable, name, status, type));
         } catch (Exception e) {
             log.info(e.getMessage());
@@ -40,6 +39,7 @@ public class ProductServiceImpl implements ProductService {
                     .type(dto.getType())
                     .status(dto.getStatus())
                     .description(dto.getDescription())
+                    .userId(1L)
                     .createDate(dto.getCreateDate() != null ? dto.getCreateDate() : new Date())
                     .modifiedDate(new Date())
                     .images(dto.getImages())

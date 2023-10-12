@@ -23,8 +23,11 @@ public class VoucherController {
                               @RequestParam Integer status,
                               @RequestParam String ascOrDesc
     ) {
-        Sort sort = ascOrDesc.equals("asc") ? Sort.by("value").ascending() : Sort.by("value").descending();
-        return voucherService.getAll(ascOrDesc.isEmpty() ? PageRequest.of(page - 1, size) : PageRequest.of(page - 1, size, sort), name, code, status);
+        return voucherService.getAll(
+                PageRequest.of(page - 1, size),
+                name.equals("") ? null : name,
+                code.equals("") ? null : code,
+                status );
     }
 
     @PostMapping("/addOrUpdate")
