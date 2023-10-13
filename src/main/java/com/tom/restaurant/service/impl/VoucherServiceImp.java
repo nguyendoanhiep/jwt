@@ -39,7 +39,7 @@ public class VoucherServiceImp implements VoucherService {
     @Override
     public Response<?> save(VoucherDto voucherDto) {
         try {
-            voucherRepository.save(Voucher
+           Voucher voucher =  voucherRepository.save(Voucher
                     .builder()
                     .id(voucherDto.getId())
                     .code(voucherDto.getId() == null ? generateRandomCode() : voucherDto.getCode())
@@ -51,10 +51,8 @@ public class VoucherServiceImp implements VoucherService {
                     .voucherExpirationDate(voucherDto.getVoucherExpirationDate())
                     .createDate(new Date())
                     .modifiedDate(new Date())
-                    .customers(customerRepository.findByListId(voucherDto.getListCustomerId()))
-                    .products(productRepository.findByListId(voucherDto.getListProductId()))
                     .build());
-            return Response.SUCCESS(true);
+            return Response.SUCCESS(voucher.getId());
         } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL();

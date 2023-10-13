@@ -38,7 +38,6 @@ public class Post implements Serializable {
 
     @Column(name = "create_date", nullable = false)
     @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
-    @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createDate;
 
     @Column(name = "modified_date", nullable = false)

@@ -41,7 +41,6 @@ public class Product implements Serializable {
 
     @Column(name = "create_date", nullable = false)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createDate;
 
     @Column(name = "modified_date", nullable = false)

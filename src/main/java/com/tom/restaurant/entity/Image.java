@@ -33,7 +33,6 @@ public class Image implements Serializable {
     private String urlImage;
 
     @Column(name = "create_date")
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     private Date createDate;
 

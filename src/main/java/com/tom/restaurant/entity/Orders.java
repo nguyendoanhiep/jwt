@@ -40,20 +40,19 @@ public class Orders implements Serializable {
 
     @Column(name = "create_date", nullable = false)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createDate;
 
     @Column(name = "modified_date", nullable = false)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "voucher_code_id", referencedColumnName = "id", updatable = false, insertable = false)
+    private Voucher voucher;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "orders_product",
             joinColumns = {@JoinColumn(name = "orders_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
     private List<Product> products;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "voucher_code_id", referencedColumnName = "id", updatable = false, insertable = false)
-    private Voucher voucher;
 }

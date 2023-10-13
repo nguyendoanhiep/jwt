@@ -22,7 +22,7 @@ public class OrderController {
         return orderService.getAll(PageRequest.of(page - 1, size));
     }
 
-    @PostMapping("/save")
+    @PostMapping("/addOrUpdate")
     @PreAuthorize("hasRole('ADMIN')")
     public Response<?> save(@RequestBody OrdersDto ordersDto) {
         return orderService.save(ordersDto);

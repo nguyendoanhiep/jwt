@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Data
@@ -25,29 +24,10 @@ public class Cart implements Serializable {
     @Column(name = "customer_id")
     private Long customerId;
 
-    @Column(name = "number_phone" , length = 20 , unique = true)
-    private String numberPhone;
+    @Column(name = "product_id")
+    private Long productId;
 
-    @Column(name = "voucher_id")
-    private Long voucherId;
-
-    @Column(name = "original_price")
-    private Long originalPrice;
-
-    @Column(name = "discount_amount")
-    private Long discountAmount;
-
-    @Column(name = "final_price")
-    private Long finalPrice;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "voucher_id", referencedColumnName = "id", updatable = false, insertable = false)
-    private Voucher voucher;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "cart_product",
-            joinColumns = {@JoinColumn(name = "cart_id")},
-            inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private List<Product> products;
+    @Column(name = "quantity")
+    private Integer quantity;
 
 }

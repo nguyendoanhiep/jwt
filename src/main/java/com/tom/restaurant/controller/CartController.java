@@ -14,24 +14,16 @@ public class CartController {
     CartService cartService;
 
     @GetMapping("/showCart")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public Response<?> showCart(@RequestParam Long customerId, @RequestParam Long productId) {
-        return cartService.showCart(customerId, productId);
+    public Response<?> showCart(@RequestParam Long customerId) {
+        return cartService.showCart(customerId);
     }
     @GetMapping("/addProductForCart")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public Response<?> addProductForCart(@RequestParam Long customerId, @RequestParam Long productId) {
         return cartService.addProductForCart(customerId, productId);
     }
     @GetMapping("/deleteProductForCart")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public Response<?> deleteProductForCart(@RequestParam Long customerId, @RequestParam Long productId) {
         return cartService.deleteProductForCart(customerId, productId);
     }
 
-    @GetMapping("/addOrDeleteVoucher")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public Response<?> addOrDeleteVoucher(@RequestParam Long customerId, @RequestParam Long voucherId) {
-        return cartService.addOrDeleteVoucher(customerId, voucherId);
-    }
 }

@@ -35,7 +35,6 @@ public class User implements Serializable {
     @Column(name = "status", nullable = false)
     private Integer status;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "create_date", nullable = false)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createDate;

@@ -52,6 +52,7 @@ public class OrderServiceImpl implements OrderService {
                         .numberPhone(ordersDto.getNumberPhone())
                         .status(1)
                         .loyaltyPoints(0L)
+                        .createDate(new Date())
                         .modifiedDate(new Date())
                         .build());
             } else {
@@ -59,11 +60,11 @@ public class OrderServiceImpl implements OrderService {
                 customerRepository.save(customer);
             }
             Optional<Voucher> voucher = voucherRepository.findById(ordersDto.getVoucherId());
-            voucher.ifPresent(code -> {
-                code.setStatus(0);
-                voucherRepository.save(code);
+            voucher.ifPresent(entity -> {
+                entity.setStatus(2);
+                voucherRepository.save(entity);
             });
-            orderRepository.save(Orders
+            Orders orders = orderRepository.save(Orders
                     .builder()
                     .id(ordersDto.getId())
                     .code(ordersDto.getId() == null ? generateRandomCode() : ordersDto.getCode())
@@ -73,9 +74,8 @@ public class OrderServiceImpl implements OrderService {
                     .originalPrice(ordersDto.getOriginalPrice())
                     .modifiedDate(new Date())
                     .products(productRepository.findByListId(ordersDto.getListProductId()))
-                    .voucher(voucher.orElse(null))
                     .build());
-            return Response.SUCCESS(true);
+            return Response.SUCCESS(orders.getId());
         } catch (
                 Exception e) {
             e.printStackTrace();

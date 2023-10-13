@@ -69,8 +69,8 @@ public class UserServiceImpl implements UserService {
                     .modifiedDate(new Date())
                     .build());
             Customer customerIsExits = customerRepository.findByNumberPhone(formRegister.getNumberPhone());
-            if(customerIsExits == null){
-                Customer cs = customerRepository.save(Customer
+            if (customerIsExits == null) {
+                customerRepository.save(Customer
                         .builder()
                         .id(null)
                         .numberPhone(formRegister.getNumberPhone())
@@ -78,13 +78,6 @@ public class UserServiceImpl implements UserService {
                         .loyaltyPoints(0L)
                         .createDate(new Date())
                         .modifiedDate(new Date())
-                        .build());
-                cartRepository.save(Cart.builder()
-                        .customerId(cs.getId())
-                        .numberPhone(formRegister.getNumberPhone())
-                        .finalPrice(0L)
-                        .originalPrice(0L)
-                        .discountAmount(0L)
                         .build());
             }
             return Response.SUCCESS(true);

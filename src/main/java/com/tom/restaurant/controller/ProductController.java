@@ -25,7 +25,7 @@ public class ProductController {
                               @RequestParam Integer type
     ) {
         return productService.getAll(PageRequest.of(page - 1, size),
-                name.equals("null") ? null : name,
+                name.equals("") ? null : name,
                 status,
                 type);
     }

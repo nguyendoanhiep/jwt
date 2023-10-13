@@ -32,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Response<?> addOrUpdate(ProductDto dto) {
         try {
-            Product product = Product.builder()
+            Product product = productRepository.save(Product.builder()
                     .id(dto.getId())
                     .name(dto.getName())
                     .price(dto.getPrice())
@@ -43,9 +43,8 @@ public class ProductServiceImpl implements ProductService {
                     .createDate(dto.getCreateDate() != null ? dto.getCreateDate() : new Date())
                     .modifiedDate(new Date())
                     .images(dto.getImages())
-                    .build();
-            productRepository.save(product);
-            return Response.SUCCESS(true);
+                    .build());
+            return Response.SUCCESS(product.getId());
         } catch (Exception e) {
             log.info(e.getMessage());
             return Response.FAIL();

@@ -33,14 +33,11 @@ public class Customer implements Serializable {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "age")
-    private Integer age;
-
     @Column(name = "gender")
     private String gender;
 
-    @Column(name = "city")
-    private String city;
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "status", nullable = false)
     private Integer status;
@@ -51,8 +48,11 @@ public class Customer implements Serializable {
     @Column(name = "loyalty_points")
     private Long loyaltyPoints;
 
+    @Column(name = "date_of_birth")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    private Date dateOfBirth;
+
     @Column(name = "create_date", nullable = false)
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createDate;
 
