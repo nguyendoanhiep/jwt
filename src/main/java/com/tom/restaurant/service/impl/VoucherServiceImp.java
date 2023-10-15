@@ -20,10 +20,6 @@ import java.util.Random;
 public class VoucherServiceImp implements VoucherService {
     @Autowired
     VoucherRepository voucherRepository;
-    @Autowired
-    CustomerRepository customerRepository;
-    @Autowired
-    ProductRepository productRepository;
 
     @Override
     public Response<?> getAll(Pageable pageable, String name, String code, Integer status) {

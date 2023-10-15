@@ -5,9 +5,7 @@ import com.tom.restaurant.entity.dto.FormChangePassword;
 import com.tom.restaurant.entity.dto.FormRegister;
 import com.tom.restaurant.entity.dto.UserDto;
 import com.tom.restaurant.entity.dto.FormLogin;
-import com.tom.restaurant.jwt.JwtAuthenticationFilter;
 import com.tom.restaurant.jwt.JwtTokenProvider;
-import com.tom.restaurant.repository.CartRepository;
 import com.tom.restaurant.repository.CustomerRepository;
 import com.tom.restaurant.repository.RoleRepository;
 import com.tom.restaurant.repository.UserRepository;
@@ -15,6 +13,7 @@ import com.tom.restaurant.response.Details;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +22,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.*;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -40,11 +41,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     CustomerRepository customerRepository;
     @Autowired
-    CartRepository cartRepository;
-
+    EntityManager entityManager;
     @Override
-    public Response<?> getAll(Pageable pageable) {
-        return Response.SUCCESS(userRepository.findAll(pageable));
+    public Response<?> getAll(Pageable pageable, String search, Integer status) {
+        Page<UserDto> ok = userRepository.getAllRole(pageable);
+        Page<User> listUser = userRepository.getAll(pageable,search,status);
+        return Response.SUCCESS(ok);
     }
 
     @Override
@@ -81,9 +83,6 @@ public class UserServiceImpl implements UserService {
                         .build());
             }
             return Response.SUCCESS(true);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            return Response.FAIL(Details.ROLE_NOT_FOUND);
         } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL();

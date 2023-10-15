@@ -1,23 +1,17 @@
 package com.tom.restaurant.service.impl;
 
 import com.tom.restaurant.entity.Cart;
-import com.tom.restaurant.entity.dto.CartResponse;
 import com.tom.restaurant.repository.CartRepository;
-import com.tom.restaurant.repository.ProductRepository;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class CartServiceImpl implements CartService {
     @Autowired
     CartRepository cartRepository;
-    @Autowired
-    ProductRepository productRepository;
-
 
     @Override
     public Response<?> showCart(Long customerId) {
@@ -65,8 +59,5 @@ public class CartServiceImpl implements CartService {
             return Response.FAIL();
         }
 
-    }
-
-    private void calculateOrder(CartResponse cartResponse) {
     }
 }

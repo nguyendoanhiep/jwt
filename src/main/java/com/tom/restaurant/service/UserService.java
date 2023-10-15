@@ -8,7 +8,7 @@ import com.tom.restaurant.response.Response;
 import org.springframework.data.domain.Pageable;
 
 public interface UserService {
-    Response<?> getAll(Pageable pageable);
+    Response<?> getAll(Pageable pageable,String search , Integer status);
 
     Response<?> register(FormRegister formRegister);
     Response<?> login(FormLogin formLogin);

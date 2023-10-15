@@ -52,4 +52,9 @@ public class User implements Serializable {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
+
+    public User(String username, Set<Role> roles) {
+        this.username = username;
+        this.roles = roles;
+    }
 }

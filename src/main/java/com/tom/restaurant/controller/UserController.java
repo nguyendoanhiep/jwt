@@ -12,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.PermitAll;
-
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/user")
@@ -22,9 +20,13 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/getAll")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response<?> getAll(@RequestParam int page,
-                              @RequestParam int size) {
-        return userService.getAll(PageRequest.of(page - 1, size));
+                              @RequestParam int size,
+                              @RequestParam String search,
+                              @RequestParam Integer status
+    ) {
+        return userService.getAll(PageRequest.of(page - 1, size), search.equals("") ? null : search, status);
     }
 
     @PostMapping("/register")

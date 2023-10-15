@@ -15,8 +15,8 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private Key getSigningKey() {
-        String secretKey = "Hieppnguyenn199925312345Hieppnguyenn199925312345Hieppnguyenn199925312345";
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        String secretCode = "Hieppnguyenn199925312345Hieppnguyenn199925312345Hieppnguyenn199925312345";
+        byte[] keyBytes = Decoders.BASE64.decode(secretCode);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
