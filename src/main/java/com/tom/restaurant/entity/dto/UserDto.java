@@ -1,6 +1,7 @@
 package com.tom.restaurant.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tom.restaurant.entity.Customer;
 import com.tom.restaurant.entity.Role;
 import lombok.*;
 import java.util.Date;
@@ -17,9 +18,8 @@ public class UserDto {
     private Date createDate;
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
-    private Set<Role> roles;
-
-    public UserDto(String username, Set<Role> roles) {
+    private Set<String> roles;
+    public UserDto(String username, Set<String> roles) {
         this.username = username;
         this.roles = roles;
     }

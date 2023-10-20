@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
     @Autowired
     OrderService orderService;
@@ -18,8 +18,11 @@ public class OrderController {
     @GetMapping("/getAll")
     @PreAuthorize("hasRole('ADMIN')")
     public Response<?> getAll(@RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "10") int size) {
-        return orderService.getAll(PageRequest.of(page - 1, size));
+                              @RequestParam(defaultValue = "10") int size,
+                              @RequestParam String search,
+                              @RequestParam Integer status
+    ) {
+        return orderService.getAll(PageRequest.of(page - 1, size),search.equals("") ? null : search, status);
     }
 
     @PostMapping("/addOrUpdate")

@@ -1,7 +1,9 @@
 package com.tom.restaurant.service.impl;
 
+import com.tom.restaurant.entity.Image;
 import com.tom.restaurant.entity.Product;
 import com.tom.restaurant.entity.dto.ProductDto;
+import com.tom.restaurant.repository.ImageRepository;
 import com.tom.restaurant.repository.ProductRepository;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.ProductService;
@@ -12,12 +14,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
 public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    ImageRepository imageRepository;
 
     @Override
     public Response<?> getAll(Pageable pageable, String name, Integer status, Integer type) {
@@ -32,7 +37,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Response<?> addOrUpdate(ProductDto dto) {
         try {
-            Product product = productRepository.save(Product.builder()
+            List<Image> ls = imageRepository.saveAll(dto.getImages());
+            Product product = Product.builder()
                     .id(dto.getId())
                     .name(dto.getName())
                     .price(dto.getPrice())
@@ -42,8 +48,9 @@ public class ProductServiceImpl implements ProductService {
                     .userId(1L)
                     .createDate(dto.getCreateDate() != null ? dto.getCreateDate() : new Date())
                     .modifiedDate(new Date())
-                    .images(dto.getImages())
-                    .build());
+                    .images(ls)
+                    .build();
+            productRepository.save(product);
             return Response.SUCCESS(product.getId());
         } catch (Exception e) {
             log.info(e.getMessage());

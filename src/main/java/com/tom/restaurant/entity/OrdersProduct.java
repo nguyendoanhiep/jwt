@@ -10,24 +10,27 @@ import java.io.Serializable;
 
 @Entity
 @Data
-@Table(name = "cart")
+@Table(name = "orders_product")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Cart implements Serializable {
+public class OrdersProduct implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "customer_id")
-    private Long customerId;
+    @Column(name = "orders_id")
+    private Long ordersId;
 
     @Column(name = "product_id")
     private Long productId;
 
     @Column(name = "quantity")
     private Integer quantity;
+
+    @Column(name = "total_price")
+    private Integer totalPrice;
 
 }

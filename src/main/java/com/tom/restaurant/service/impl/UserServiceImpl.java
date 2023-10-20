@@ -40,13 +40,10 @@ public class UserServiceImpl implements UserService {
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     CustomerRepository customerRepository;
-    @Autowired
-    EntityManager entityManager;
     @Override
     public Response<?> getAll(Pageable pageable, String search, Integer status) {
-        Page<UserDto> ok = userRepository.getAllRole(pageable);
         Page<User> listUser = userRepository.getAll(pageable,search,status);
-        return Response.SUCCESS(ok);
+        return Response.SUCCESS(listUser);
     }
 
     @Override

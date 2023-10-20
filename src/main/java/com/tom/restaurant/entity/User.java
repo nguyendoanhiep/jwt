@@ -1,6 +1,7 @@
 package com.tom.restaurant.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class User implements Serializable {
     private String username;
 
     @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(name = "number_phone" , length = 20 , nullable = false , unique = true)
@@ -43,18 +45,9 @@ public class User implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "number_phone", referencedColumnName = "number_phone", updatable = false, insertable = false)
-    private Customer customer;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
-
-    public User(String username, Set<Role> roles) {
-        this.username = username;
-        this.roles = roles;
-    }
 }

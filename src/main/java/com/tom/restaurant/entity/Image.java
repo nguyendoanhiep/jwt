@@ -26,19 +26,8 @@ public class Image implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "status", nullable = false)
-    private Integer status;
-
     @Column(name = "url_image")
     private String urlImage;
-
-    @Column(name = "create_date")
-    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
-    private Date createDate;
-
-    @Column(name = "modified_date")
-    @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
-    private Date modifiedDate;
 
     @Column(name = "priority")
     private Integer priority;

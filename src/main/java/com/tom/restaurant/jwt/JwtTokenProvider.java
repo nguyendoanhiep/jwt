@@ -40,6 +40,14 @@ public class JwtTokenProvider {
 
         return claims.get("username", String.class);
     }
+    public Long getIdFromJWT(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(getSigningKey())
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get("id", Long.class);
+    }
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(getSigningKey()).parseClaimsJws(authToken);

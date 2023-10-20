@@ -14,6 +14,6 @@ public class VoucherCustomer {
     private Long id;
     @Column(name = "voucher_id")
     private Long voucherId;
-    @Column(name = "customer_id")
-    private Long customerId;
+    @Column(name = "number_phone")
+    private Long numberPhone;
 }
