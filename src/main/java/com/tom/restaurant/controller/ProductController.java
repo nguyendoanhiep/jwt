@@ -35,4 +35,23 @@ public class ProductController {
     public Response<?> addOrUpdate(@RequestBody ProductDto dto) {
         return productService.addOrUpdate(dto);
     }
+    @GetMapping("/getImageByProductId")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Response<?> addOrUpdateImage(@RequestParam Long productId) {
+        return productService.getImageByProductId(productId);
+    }
+
+    @GetMapping("/setPriorityImage")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Response<?> setPriorityImage(@RequestParam Long imageId ,
+                                        @RequestParam Long productId  ) {
+        return productService.setPriorityImage(imageId,productId);
+    }
+
+    @GetMapping("/deleteImageOfProduct")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Response<?> deleteImageOfProduct(@RequestParam Long imageId) {
+        return productService.deleteImageOfProduct(imageId);
+    }
+
 }

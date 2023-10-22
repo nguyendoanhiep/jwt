@@ -31,5 +31,9 @@ public class Image implements Serializable {
 
     @Column(name = "priority")
     private Integer priority;
+    @Column(name = "create_date")
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    private Date createDate = new Date();
 
 }

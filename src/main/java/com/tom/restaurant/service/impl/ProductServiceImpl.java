@@ -9,7 +9,6 @@ import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +52,48 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(product);
             return Response.SUCCESS(product.getId());
         } catch (Exception e) {
+            e.printStackTrace();
+            log.info(e.getMessage());
+            return Response.FAIL();
+        }
+    }
+
+    @Override
+    public Response<?> getImageByProductId(Long productId) {
+       try {
+           List<Image> images = imageRepository.getImageByProductId(productId);
+           return Response.SUCCESS(images);
+       }catch (Exception e){
+           log.info(e.getMessage());
+           return Response.FAIL();
+       }
+    }
+
+    @Override
+    public Response<?> setPriorityImage(Long imageId, Long productId) {
+        try {
+            List<Image> images = imageRepository.getImageByProductId(productId);
+            images.forEach(data -> {
+                if(data.getId().equals(imageId)){
+                    data.setPriority(1);
+                }else {
+                    data.setPriority(0);
+                }
+            });
+            imageRepository.saveAll(images);
+            return Response.SUCCESS();
+        }catch (Exception e){
+            log.info(e.getMessage());
+            return Response.FAIL();
+        }
+    }
+
+    @Override
+    public Response<?> deleteImageOfProduct(Long imageId) {
+        try {
+            imageRepository.deleteById(imageId);
+            return Response.SUCCESS();
+        }catch (Exception e){
             log.info(e.getMessage());
             return Response.FAIL();
         }
