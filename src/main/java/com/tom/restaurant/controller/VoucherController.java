@@ -34,4 +34,9 @@ public class VoucherController {
     public Response<?> getAll(@RequestBody VoucherDto voucherDto) {
         return voucherService.save(voucherDto);
     }
+
+    @GetMapping("/findByNumberPhone")
+    public Response<?> findByNumberPhone(@RequestParam String numberPhone) {
+        return voucherService.findByNumberPhone( numberPhone );
+    }
 }

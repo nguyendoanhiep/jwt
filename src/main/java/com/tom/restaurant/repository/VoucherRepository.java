@@ -17,6 +17,9 @@ public interface VoucherRepository extends JpaRepository<Voucher, Long> {
             "(:status is 0 or v.status =:status)")
     Page<Voucher> getAll(Pageable pageable, String name, String code, Integer status);
 
-    @Query(value = "select v from Voucher v where v.id in (:listVoucherId)")
-    List<Voucher> findByListId(List<Long> listVoucherId);
+    @Query(value = "SELECT v FROM Voucher v join " +
+            "VoucherCustomer vc on v.id= vc.voucherId join " +
+            "Customer c on vc.numberPhone = c.numberPhone where " +
+            "c.numberPhone= :numberPhone")
+    List<Voucher> findByNumberPhone(String numberPhone);
 }

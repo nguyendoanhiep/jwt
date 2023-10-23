@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -49,6 +50,17 @@ public class VoucherServiceImp implements VoucherService {
                     .modifiedDate(new Date())
                     .build());
             return Response.SUCCESS(voucher.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.FAIL();
+        }
+    }
+
+    @Override
+    public Response<?> findByNumberPhone(String numberPhone) {
+        try {
+            List<Voucher> listVoucher = voucherRepository.findByNumberPhone(numberPhone);
+            return Response.SUCCESS(listVoucher);
         } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL();

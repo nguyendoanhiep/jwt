@@ -7,4 +7,5 @@ import org.springframework.data.domain.Pageable;
 public interface VoucherService {
     Response<?> getAll(Pageable pageable,String name , String code , Integer status);
     Response<?> save(VoucherDto voucherDto);
+    Response<?> findByNumberPhone(String numberPhone);
 }
