@@ -87,6 +87,17 @@ public class VoucherServiceImp implements VoucherService {
         }
     }
 
+    @Override
+    public Response<?> delete(Long id) {
+        try {
+            voucherRepository.deleteById(id);
+            return Response.SUCCESS(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.FAIL();
+        }
+    }
+
     private String generateRandomCode() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String timestamp = dateFormat.format(new Date());

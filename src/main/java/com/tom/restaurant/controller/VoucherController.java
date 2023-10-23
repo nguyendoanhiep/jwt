@@ -47,4 +47,9 @@ public class VoucherController {
                                              @RequestParam Long voucherId) {
         return voucherService.addVoucherForCustomer( numberPhoneList ,voucherId);
     }
+
+    @GetMapping("/delete")
+    public Response<?> delete(@RequestParam Long id) {
+        return voucherService.delete(id);
+    }
 }

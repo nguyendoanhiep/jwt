@@ -11,4 +11,5 @@ public interface VoucherService {
     Response<?> save(VoucherDto voucherDto);
     Response<?> findByNumberPhone(String numberPhone);
     Response<?> addVoucherForCustomer(List<String> numberPhoneList , Long voucherId);
+    Response<?> delete(Long id);
 }
