@@ -7,4 +7,6 @@ import org.springframework.data.domain.Pageable;
 public interface CustomerService {
     Response<?> getAll(Pageable pageable, String search , Integer status);
     Response<?> addOrUpdate(CustomerDto dto);
+    Response<?> delete(Long id);
+
 }

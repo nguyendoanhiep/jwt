@@ -48,4 +48,15 @@ public class CustomerServiceImpl implements CustomerService {
             return Response.FAIL();
         }
     }
+
+    @Override
+    public Response<?> delete(Long id) {
+        try {
+            customerRepository.deleteById(id);
+            return Response.SUCCESS(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.FAIL();
+        }
+    }
 }

@@ -29,4 +29,9 @@ public class CustomerController {
     public Response<?> addOrUpdate(@RequestBody CustomerDto dto) {
         return customerService.addOrUpdate(dto);
     }
+
+    @GetMapping("/delete")
+    public Response<?> delete(@RequestParam Long id) {
+        return customerService.delete(id);
+    }
 }
