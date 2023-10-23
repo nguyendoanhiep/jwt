@@ -26,7 +26,6 @@ public class OrderController {
     }
 
     @PostMapping("/addOrUpdate")
-    @PreAuthorize("hasRole('ADMIN')")
     public Response<?> save(@RequestBody OrdersDto ordersDto) {
         return orderService.save(ordersDto);
     }

@@ -10,4 +10,6 @@ public interface ProductService {
     Response<?> getImageByProductId(Long productId);
     Response<?> setPriorityImage(Long imageId, Long productId);
     Response<?> deleteImageOfProduct(Long imageId);
+    Response<?> delete(Long id);
+
 }

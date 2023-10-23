@@ -6,6 +6,7 @@ import com.tom.restaurant.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class VoucherController {
     }
 
     @PostMapping("/addOrUpdate")
-    public Response<?> getAll(@RequestBody VoucherDto voucherDto) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Response<?> addOrUpdate(@RequestBody VoucherDto voucherDto) {
         return voucherService.save(voucherDto);
     }
 
@@ -43,12 +45,14 @@ public class VoucherController {
     }
 
     @GetMapping("/addVoucherForCustomer")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response<?> addVoucherForCustomer(@RequestParam List<String> numberPhoneList,
                                              @RequestParam Long voucherId) {
         return voucherService.addVoucherForCustomer( numberPhoneList ,voucherId);
     }
 
     @GetMapping("/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response<?> delete(@RequestParam Long id) {
         return voucherService.delete(id);
     }
