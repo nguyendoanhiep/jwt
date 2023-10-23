@@ -53,5 +53,10 @@ public class ProductController {
     public Response<?> deleteImageOfProduct(@RequestParam Long imageId) {
         return productService.deleteImageOfProduct(imageId);
     }
+    @GetMapping("/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Response<?> delete(@RequestParam Long id) {
+        return productService.delete(id);
+    }
 
 }

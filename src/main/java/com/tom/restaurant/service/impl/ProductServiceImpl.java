@@ -98,4 +98,15 @@ public class ProductServiceImpl implements ProductService {
             return Response.FAIL();
         }
     }
+
+    @Override
+    public Response<?> delete(Long id) {
+        try {
+            productRepository.deleteById(id);
+            return Response.SUCCESS(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.FAIL();
+        }
+    }
 }
