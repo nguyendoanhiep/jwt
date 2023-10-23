@@ -1,9 +1,9 @@
 package com.tom.restaurant.service.impl;
 
 import com.tom.restaurant.entity.Voucher;
+import com.tom.restaurant.entity.VoucherCustomer;
 import com.tom.restaurant.entity.dto.VoucherDto;
-import com.tom.restaurant.repository.CustomerRepository;
-import com.tom.restaurant.repository.ProductRepository;
+import com.tom.restaurant.repository.VoucherCustomerRepository;
 import com.tom.restaurant.repository.VoucherRepository;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.VoucherService;
@@ -16,11 +16,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class VoucherServiceImp implements VoucherService {
     @Autowired
     VoucherRepository voucherRepository;
+    @Autowired
+    VoucherCustomerRepository voucherCustomerRepository;
 
     @Override
     public Response<?> getAll(Pageable pageable, String name, String code, Integer status) {
@@ -61,6 +64,23 @@ public class VoucherServiceImp implements VoucherService {
         try {
             List<Voucher> listVoucher = voucherRepository.findByNumberPhone(numberPhone);
             return Response.SUCCESS(listVoucher);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.FAIL();
+        }
+    }
+
+    @Override
+    public Response<?> addVoucherForCustomer(List<String> numberPhoneList, Long voucherId) {
+        try {
+            List<VoucherCustomer> voucherCustomerList = numberPhoneList.stream().map(numberPhone -> {
+                VoucherCustomer voucherCustomer = new VoucherCustomer();
+                voucherCustomer.setVoucherId(voucherId);
+                voucherCustomer.setNumberPhone(numberPhone);
+                return voucherCustomer;
+            }).collect(Collectors.toList());
+            voucherCustomerRepository.saveAll(voucherCustomerList);
+            return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL();

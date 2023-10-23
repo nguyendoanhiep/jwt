@@ -15,5 +15,5 @@ public class VoucherCustomer {
     @Column(name = "voucher_id")
     private Long voucherId;
     @Column(name = "number_phone")
-    private Long numberPhone;
+    private String numberPhone;
 }

@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/voucher")
@@ -38,5 +40,11 @@ public class VoucherController {
     @GetMapping("/findByNumberPhone")
     public Response<?> findByNumberPhone(@RequestParam String numberPhone) {
         return voucherService.findByNumberPhone( numberPhone );
+    }
+
+    @GetMapping("/addVoucherForCustomer")
+    public Response<?> addVoucherForCustomer(@RequestParam List<String> numberPhoneList,
+                                             @RequestParam Long voucherId) {
+        return voucherService.addVoucherForCustomer( numberPhoneList ,voucherId);
     }
 }
