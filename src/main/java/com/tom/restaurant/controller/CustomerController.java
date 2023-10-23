@@ -17,6 +17,7 @@ public class CustomerController {
     CustomerService customerService;
 
     @GetMapping("/getAll")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response<?> getAll(@RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "10") int size,
                               @RequestParam String search,

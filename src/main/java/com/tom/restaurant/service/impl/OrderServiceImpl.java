@@ -76,14 +76,14 @@ public class OrderServiceImpl implements OrderService {
                     .originalTotalValue(ordersDto.getOriginalTotalValue())
                     .discountAmount(ordersDto.getDiscountAmount() == null ? 0 : ordersDto.getDiscountAmount())
                     .totalValue(ordersDto.getTotalValue())
+                    .status(1)
                     .createDate(ordersDto.getCreateDate() == null ? new Date() : ordersDto.getCreateDate())
                     .modifiedDate(new Date())
                     .build());
             ordersDto.getOrdersProducts().forEach(product -> product.setOrdersId(orders.getId()));
             ordersProductRepository.saveAll(ordersDto.getOrdersProducts());
             return Response.SUCCESS(orders.getId());
-        } catch (
-                Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL();
         }
