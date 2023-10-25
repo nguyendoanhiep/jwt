@@ -21,15 +21,12 @@ public class VoucherController {
     @GetMapping("/getAll")
     public Response<?> getAll(@RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "10") int size,
-                              @RequestParam String name,
-                              @RequestParam String code,
-                              @RequestParam Integer status,
-                              @RequestParam String ascOrDesc
+                              @RequestParam String search,
+                              @RequestParam Integer status
     ) {
         return voucherService.getAll(
                 PageRequest.of(page - 1, size),
-                name.equals("") ? null : name,
-                code.equals("") ? null : code,
+                search.equals("") ? null : search,
                 status );
     }
 

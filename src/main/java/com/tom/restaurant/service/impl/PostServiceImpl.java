@@ -19,7 +19,7 @@ public class PostServiceImpl implements PostService {
           return Response.SUCCESS(postRepository.getAll(pageable,search));
       } catch (Exception e) {
           e.printStackTrace();
-          return Response.FAIL();
+          return Response.FAIL(false);
       }
     }
 }

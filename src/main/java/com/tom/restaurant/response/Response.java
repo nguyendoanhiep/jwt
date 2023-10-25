@@ -27,10 +27,11 @@ public class Response<T> implements Serializable {
         response.setMessage(Details.SUCCESS.getMessage());
         return response;
     }
-    public static <T> Response<?> FAIL() {
+    public static <T> Response<?> FAIL( T data) {
         Response<T> response = new Response<>();
         response.setCode(Details.FAIL.getCode());
         response.setMessage(Details.FAIL.getMessage());
+        response.setData(data);
         return response;
     }
     public static <T> Response<?> FAIL(Details details) {

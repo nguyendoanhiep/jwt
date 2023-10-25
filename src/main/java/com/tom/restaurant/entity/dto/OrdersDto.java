@@ -25,7 +25,8 @@ public class OrdersDto {
     private Date createDate;
     private List<OrdersProduct> ordersProducts;
 
-    public OrdersDto(String customerName, String code, String numberPhone, String voucherName, Long originalTotalValue, Long discountAmount, Long totalValue, Integer status, Date createDate) {
+    public OrdersDto(Long id ,String customerName, String code, String numberPhone, String voucherName, Long originalTotalValue, Long discountAmount, Long totalValue, Integer status, Date createDate) {
+        this.id = id;
         this.customerName = customerName;
         this.code = code;
         this.numberPhone = numberPhone;

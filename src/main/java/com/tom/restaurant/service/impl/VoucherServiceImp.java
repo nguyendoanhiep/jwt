@@ -26,13 +26,13 @@ public class VoucherServiceImp implements VoucherService {
     VoucherCustomerRepository voucherCustomerRepository;
 
     @Override
-    public Response<?> getAll(Pageable pageable, String name, String code, Integer status) {
+    public Response<?> getAll(Pageable pageable, String search, Integer status) {
         try {
-            Page<Voucher> listVoucher = voucherRepository.getAll(pageable,name,code,status);
+            Page<Voucher> listVoucher = voucherRepository.getAll(pageable, search,status);
             return Response.SUCCESS(listVoucher);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
@@ -55,7 +55,7 @@ public class VoucherServiceImp implements VoucherService {
             return Response.SUCCESS(voucher.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
@@ -66,7 +66,7 @@ public class VoucherServiceImp implements VoucherService {
             return Response.SUCCESS(listVoucher);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
@@ -83,7 +83,7 @@ public class VoucherServiceImp implements VoucherService {
             return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
@@ -94,7 +94,7 @@ public class VoucherServiceImp implements VoucherService {
             return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 

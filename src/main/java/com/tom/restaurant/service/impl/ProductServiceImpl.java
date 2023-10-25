@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
             return Response.SUCCESS(productRepository.getAll(pageable, name, status, type));
         } catch (Exception e) {
             log.info(e.getMessage());
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
         } catch (Exception e) {
             e.printStackTrace();
             log.info(e.getMessage());
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
@@ -65,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
            return Response.SUCCESS(images);
        }catch (Exception e){
            log.info(e.getMessage());
-           return Response.FAIL();
+           return Response.FAIL(false);
        }
     }
 
@@ -84,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
             return Response.SUCCESS();
         }catch (Exception e){
             log.info(e.getMessage());
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
@@ -95,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
             return Response.SUCCESS();
         }catch (Exception e){
             log.info(e.getMessage());
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
@@ -106,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
             return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 }

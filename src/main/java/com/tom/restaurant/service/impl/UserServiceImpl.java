@@ -40,9 +40,10 @@ public class UserServiceImpl implements UserService {
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     CustomerRepository customerRepository;
+
     @Override
     public Response<?> getAll(Pageable pageable, String search, Integer status) {
-        Page<User> listUser = userRepository.getAll(pageable,search,status);
+        Page<User> listUser = userRepository.getAll(pageable, search, status);
         return Response.SUCCESS(listUser);
     }
 
@@ -59,6 +60,7 @@ public class UserServiceImpl implements UserService {
                 roles.add(role);
             });
             userRepository.save(User.builder()
+                    .id(null)
                     .username(formRegister.getUsername())
                     .password(passwordEncoder.encode(formRegister.getPassword()))
                     .numberPhone(formRegister.getNumberPhone())
@@ -82,7 +84,7 @@ public class UserServiceImpl implements UserService {
             return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
@@ -103,7 +105,7 @@ public class UserServiceImpl implements UserService {
             return Response.SUCCESS(jwt);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
@@ -121,7 +123,7 @@ public class UserServiceImpl implements UserService {
             return Response.SUCCESS();
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
 
     }
@@ -139,7 +141,7 @@ public class UserServiceImpl implements UserService {
             return Response.SUCCESS();
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 }

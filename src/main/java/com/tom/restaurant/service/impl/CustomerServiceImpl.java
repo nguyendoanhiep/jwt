@@ -22,7 +22,7 @@ public class CustomerServiceImpl implements CustomerService {
             return Response.SUCCESS(customerRepository.getAll(pageable, search, status));
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
@@ -42,10 +42,10 @@ public class CustomerServiceImpl implements CustomerService {
                     .createDate(dto.getCreateDate() == null ? new Date() : dto.getCreateDate())
                     .modifiedDate(new Date())
                     .build());
-            return Response.SUCCESS(customer.getId());
+            return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
@@ -56,7 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
             return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 }

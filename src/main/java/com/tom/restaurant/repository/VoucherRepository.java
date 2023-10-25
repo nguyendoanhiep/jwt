@@ -12,12 +12,11 @@ import java.util.List;
 @Repository
 public interface VoucherRepository extends JpaRepository<Voucher, Long> {
     @Query(value = "select v from Voucher v where " +
-            "(:name is null or v.name like %:name%) and " +
-            "(:code is null or v.code like :code%) and " +
+            "(:search is null or v.name like :search% or v.code like :search% ) and " +
             "(:status is 0 or v.status =:status)")
-    Page<Voucher> getAll(Pageable pageable, String name, String code, Integer status);
+    Page<Voucher> getAll(Pageable pageable, String search , Integer status);
 
     @Query(value = "SELECT v FROM Voucher v join VoucherCustomer vc on v.id= vc.voucherId join Customer c on vc.numberPhone = c.numberPhone where" +
-            " c.numberPhone like :numberPhone%")
+            " c.numberPhone like :numberPhone% and v.status = 1 ")
     List<Voucher> findByNumberPhone(String numberPhone);
 }

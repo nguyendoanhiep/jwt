@@ -36,14 +36,14 @@ public class OrderServiceImpl implements OrderService {
             return Response.SUCCESS(ordersList);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
     @Override
     public Response<?> save(OrdersDto ordersDto) {
         try {
-            if (!ordersDto.getNumberPhone().isEmpty()) {
+            if (ordersDto.getNumberPhone() != null) {
                 Customer customer = customerRepository.findByNumberPhone(ordersDto.getNumberPhone());
                 if (customer == null) {
                     customerRepository.save(Customer
@@ -85,7 +85,7 @@ public class OrderServiceImpl implements OrderService {
             return Response.SUCCESS(orders.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.FAIL();
+            return Response.FAIL(false);
         }
     }
 
