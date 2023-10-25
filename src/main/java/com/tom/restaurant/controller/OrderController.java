@@ -29,4 +29,11 @@ public class OrderController {
     public Response<?> save(@RequestBody OrdersDto ordersDto) {
         return orderService.save(ordersDto);
     }
+
+
+    @PostMapping("/activationOfTurnOff")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Response<?> activationOfTurnOff(@RequestParam Long id) {
+        return orderService.activationOfTurnOff(id);
+    }
 }

@@ -7,4 +7,5 @@ import org.springframework.data.domain.Pageable;
 public interface OrderService {
     Response<?> getAll(Pageable pageable,String search , Integer status);
     Response<?> save(OrdersDto ordersDto);
+    Response<?> activationOfTurnOff(Long id);
 }

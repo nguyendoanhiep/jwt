@@ -41,14 +41,14 @@ public class VoucherController {
         return voucherService.findByNumberPhone( numberPhone );
     }
 
-    @GetMapping("/addVoucherForCustomer")
+    @PostMapping("/addVoucherForCustomer")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response<?> addVoucherForCustomer(@RequestParam List<String> numberPhoneList,
                                              @RequestParam Long voucherId) {
         return voucherService.addVoucherForCustomer( numberPhoneList ,voucherId);
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response<?> delete(@RequestParam Long id) {
         return voucherService.delete(id);

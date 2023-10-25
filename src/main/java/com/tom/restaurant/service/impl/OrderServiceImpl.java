@@ -89,6 +89,27 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public Response<?> activationOfTurnOff(Long id) {
+        try {
+            Orders orders = orderRepository.findById(id).get();
+            if(orders.getStatus() == 1){
+                orders.setStatus(2);
+                orderRepository.save(orders);
+                return Response.SUCCESS(true);
+            }
+            if(orders.getStatus() == 2){
+                orders.setStatus(1);
+                orderRepository.save(orders);
+                return Response.SUCCESS(true);
+            }
+            return Response.FAIL(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.FAIL(false);
+        }
+    }
+
     private String generateRandomCode() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String timestamp = dateFormat.format(new Date());

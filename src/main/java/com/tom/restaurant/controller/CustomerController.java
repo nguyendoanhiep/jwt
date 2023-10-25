@@ -31,7 +31,7 @@ public class CustomerController {
         return customerService.addOrUpdate(dto);
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response<?> delete(@RequestParam Long id) {
         return customerService.delete(id);

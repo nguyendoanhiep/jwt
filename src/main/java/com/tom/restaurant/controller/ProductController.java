@@ -48,12 +48,12 @@ public class ProductController {
         return productService.setPriorityImage(imageId,productId);
     }
 
-    @GetMapping("/deleteImageOfProduct")
+    @PostMapping("/deleteImageOfProduct")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response<?> deleteImageOfProduct(@RequestParam Long imageId) {
         return productService.deleteImageOfProduct(imageId);
     }
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response<?> delete(@RequestParam Long id) {
         return productService.delete(id);
