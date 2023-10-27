@@ -42,8 +42,8 @@ public class Customer implements Serializable {
     @Column(name = "status", nullable = false)
     private Integer status;
 
-    @Column(name = "image_id")
-    private Long imageId;
+    @Column(name = "urlImage")
+    private String urlImage;
 
     @Column(name = "loyalty_points")
     private Long loyaltyPoints;
@@ -60,7 +60,4 @@ public class Customer implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id", referencedColumnName = "id", updatable = false, insertable = false)
-    private Image image;
 }

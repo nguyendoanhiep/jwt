@@ -19,8 +19,4 @@ public class UserDto {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
     private Set<String> roles;
-    public UserDto(String username, Set<String> roles) {
-        this.username = username;
-        this.roles = roles;
-    }
 }

@@ -34,6 +34,9 @@ public class Voucher implements Serializable {
     @Column(name = "value")
     private Long value;
 
+    @Column(name = "quantity")
+    private Long quantity;
+
     @Column(name = "status", nullable = false)
     private Integer status;
 

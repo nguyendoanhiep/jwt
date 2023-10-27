@@ -21,7 +21,7 @@ public class CustomerDto {
 
     private Integer status;
 
-    private Long imageId;
+    private String urlImage;
 
     private Long loyaltyPoints;
 

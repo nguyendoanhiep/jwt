@@ -28,7 +28,7 @@ public class VoucherServiceImp implements VoucherService {
     @Override
     public Response<?> getAll(Pageable pageable, String search, Integer status) {
         try {
-            Page<Voucher> listVoucher = voucherRepository.getAll(pageable, search,status);
+            Page<Voucher> listVoucher = voucherRepository.getAll(pageable, search, status);
             return Response.SUCCESS(listVoucher);
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,12 +39,13 @@ public class VoucherServiceImp implements VoucherService {
     @Override
     public Response<?> save(VoucherDto voucherDto) {
         try {
-           Voucher voucher =  voucherRepository.save(Voucher
+            Voucher voucher = voucherRepository.save(Voucher
                     .builder()
                     .id(voucherDto.getId())
                     .code(voucherDto.getId() == null ? generateRandomCode() : voucherDto.getCode())
                     .name(voucherDto.getName())
                     .value(voucherDto.getValue())
+                    .quantity(voucherDto.getQuantity())
                     .userCreateId(voucherDto.getUserCreateId())
                     .status(voucherDto.getStatus())
                     .voucherStartDate(voucherDto.getVoucherStartDate())

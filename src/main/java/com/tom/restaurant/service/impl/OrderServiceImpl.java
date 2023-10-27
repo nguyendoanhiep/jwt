@@ -30,9 +30,9 @@ public class OrderServiceImpl implements OrderService {
     OrdersProductRepository ordersProductRepository;
 
     @Override
-    public Response<?> getAll(Pageable pageable,String search , Integer status) {
+    public Response<?> getAll(Pageable pageable, String search, Integer status) {
         try {
-            Page<OrdersDto> ordersList = orderRepository.getAll(pageable,search,status);
+            Page<OrdersDto> ordersList = orderRepository.getAll(pageable, search, status);
             return Response.SUCCESS(ordersList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,11 +60,16 @@ public class OrderServiceImpl implements OrderService {
                     customerRepository.save(customer);
                 }
             }
-            if(ordersDto.getVoucherId() != null){
-                Optional<Voucher> voucher = voucherRepository.findById( ordersDto.getVoucherId());
+            if (ordersDto.getVoucherId() != null) {
+                Optional<Voucher> voucher = voucherRepository.findById(ordersDto.getVoucherId());
                 voucher.ifPresent(entity -> {
-                    entity.setStatus(2);
-                    voucherRepository.save(entity);
+                    if (entity.getQuantity() > 0) {
+                        entity.setQuantity(entity.getQuantity() - 1);
+                        if (entity.getQuantity() == 0) {
+                            entity.setStatus(2);
+                        }
+                        voucherRepository.save(entity);
+                    }
                 });
             }
             Orders orders = orderRepository.save(Orders
@@ -82,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
                     .build());
             ordersDto.getOrdersProducts().forEach(product -> product.setOrdersId(orders.getId()));
             ordersProductRepository.saveAll(ordersDto.getOrdersProducts());
-            return Response.SUCCESS(orders.getId());
+            return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL(false);
@@ -93,12 +98,12 @@ public class OrderServiceImpl implements OrderService {
     public Response<?> activationOfTurnOff(Long id) {
         try {
             Orders orders = orderRepository.findById(id).get();
-            if(orders.getStatus() == 1){
+            if (orders.getStatus() == 1) {
                 orders.setStatus(2);
                 orderRepository.save(orders);
                 return Response.SUCCESS(true);
             }
-            if(orders.getStatus() == 2){
+            if (orders.getStatus() == 2) {
                 orders.setStatus(1);
                 orderRepository.save(orders);
                 return Response.SUCCESS(true);

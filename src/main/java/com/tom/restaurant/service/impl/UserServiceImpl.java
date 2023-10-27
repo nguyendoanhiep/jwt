@@ -6,9 +6,7 @@ import com.tom.restaurant.entity.dto.FormRegister;
 import com.tom.restaurant.entity.dto.UserDto;
 import com.tom.restaurant.entity.dto.FormLogin;
 import com.tom.restaurant.jwt.JwtTokenProvider;
-import com.tom.restaurant.repository.CustomerRepository;
-import com.tom.restaurant.repository.RoleRepository;
-import com.tom.restaurant.repository.UserRepository;
+import com.tom.restaurant.repository.*;
 import com.tom.restaurant.response.Details;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.UserService;
@@ -23,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.util.*;
 
 
@@ -40,6 +39,10 @@ public class UserServiceImpl implements UserService {
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    OrderRepository orderRepository;
+    @Autowired
+    VoucherCustomerRepository voucherCustomerRepository;
 
     @Override
     public Response<?> getAll(Pageable pageable, String search, Integer status) {
@@ -55,10 +58,8 @@ public class UserServiceImpl implements UserService {
                 return Response.FAIL(Details.DATA_ALREADY_EXISTS);
             }
             Set<Role> roles = new HashSet<>();
-            formRegister.getRoles().forEach(data -> {
-                Role role = roleRepository.findByName(data).orElseThrow(() -> new RuntimeException("Role not found"));
-                roles.add(role);
-            });
+            Optional<Role> role = roleRepository.findByName("ROLE_USER");
+            role.ifPresent(roles::add);
             userRepository.save(User.builder()
                     .id(null)
                     .username(formRegister.getUsername())
@@ -110,17 +111,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Response<?> editUser(UserDto userDto) {
         try {
-            User user = User.builder()
-                    .id(userDto.getId())
-                    .username(userDto.getUsername())
-                    .password(userDto.getPassword())
-                    .status(userDto.getStatus())
-                    .modifiedDate(new Date())
-                    .build();
+            Set<Role> roles = new HashSet<>();
+            userDto.getRoles().forEach(data -> {
+                Role role = roleRepository.findByName(data).orElseThrow(() -> new RuntimeException("Role not found"));
+                roles.add(role);
+            });
+            User user = userRepository.findById(userDto.getId()).get();
+            if (!Objects.equals(user.getNumberPhone(), userDto.getNumberPhone())) {
+                customerRepository.updateNumberPhone(user.getNumberPhone(),userDto.getNumberPhone());
+                orderRepository.updateNumberPhone(user.getNumberPhone(),userDto.getNumberPhone());
+                voucherCustomerRepository.updateNumberPhone(user.getNumberPhone(),userDto.getNumberPhone());
+            }
+            user.setNumberPhone(userDto.getNumberPhone());
+            user.setStatus(userDto.getStatus());
+            user.setRoles(roles);
+            user.setModifiedDate(new Date());
             userRepository.save(user);
-            return Response.SUCCESS();
+            return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL(false);
@@ -138,7 +148,7 @@ public class UserServiceImpl implements UserService {
             }
             user.setPassword(passwordEncoder.encode(formChangePassword.getNewPassword()));
             userRepository.save(user);
-            return Response.SUCCESS();
+            return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL(false);
