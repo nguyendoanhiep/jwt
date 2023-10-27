@@ -1,9 +1,7 @@
 package com.tom.restaurant.service.impl;
 
 import com.tom.restaurant.entity.Customer;
-import com.tom.restaurant.entity.Orders;
-import com.tom.restaurant.entity.User;
-import com.tom.restaurant.entity.dto.CustomerDto;
+import com.tom.restaurant.entity.dto.CustomerRequest;
 import com.tom.restaurant.repository.*;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.CustomerService;
@@ -13,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -39,26 +35,26 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public Response<?> addOrUpdate(CustomerDto dto) {
+    public Response<?> addOrUpdate(CustomerRequest request) {
         try {
             Customer customer = new Customer();
-            if (dto.getId() != null) {
-                Customer cus = customerRepository.findById(dto.getId()).get();
-                userRepository.updateNumberPhone(cus.getNumberPhone(),dto.getNumberPhone());
-                orderRepository.updateNumberPhone(cus.getNumberPhone(),dto.getNumberPhone());
-                voucherCustomerRepository.updateNumberPhone(cus.getNumberPhone(),dto.getNumberPhone());
+            if (request.getId() != null) {
+                Customer cus = customerRepository.findById(request.getId()).get();
+                userRepository.updateNumberPhone(cus.getNumberPhone(),request.getNumberPhone());
+                orderRepository.updateNumberPhone(cus.getNumberPhone(),request.getNumberPhone());
+                voucherCustomerRepository.updateNumberPhone(cus.getNumberPhone(),request.getNumberPhone());
             }
-            customer.setId(dto.getId());
-            customer.setName(dto.getName());
-            customer.setNumberPhone(dto.getNumberPhone());
-            customer.setEmail(dto.getEmail());
-            customer.setAddress(dto.getAddress());
-            customer.setUrlImage(dto.getUrlImage());
-            customer.setStatus(dto.getStatus());
-            customer.setLoyaltyPoints(dto.getLoyaltyPoints()== null ? 0 : dto.getLoyaltyPoints());
-            customer.setDateOfBirth(dto.getDateOfBirth());
-            customer.setStatus(dto.getStatus());
-            customer.setCreateDate(dto.getCreateDate() == null ? new Date() : dto.getCreateDate());
+            customer.setId(request.getId());
+            customer.setName(request.getName());
+            customer.setNumberPhone(request.getNumberPhone());
+            customer.setEmail(request.getEmail());
+            customer.setAddress(request.getAddress());
+            customer.setUrlImage(request.getUrlImage());
+            customer.setStatus(request.getStatus());
+            customer.setLoyaltyPoints(request.getLoyaltyPoints()== null ? 0 : request.getLoyaltyPoints());
+            customer.setDateOfBirth(request.getDateOfBirth());
+            customer.setStatus(request.getStatus());
+            customer.setCreateDate(request.getCreateDate() == null ? new Date() : request.getCreateDate());
             customer.setModifiedDate(new Date());
             customerRepository.save(customer);
             return Response.SUCCESS(true);

@@ -1,11 +1,10 @@
 package com.tom.restaurant.controller;
 
-import com.tom.restaurant.entity.dto.VoucherDto;
+import com.tom.restaurant.entity.dto.VoucherRequest;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +31,8 @@ public class VoucherController {
 
     @PostMapping("/addOrUpdate")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Response<?> addOrUpdate(@RequestBody VoucherDto voucherDto) {
-        return voucherService.save(voucherDto);
+    public Response<?> addOrUpdate(@RequestBody VoucherRequest request) {
+        return voucherService.save(request);
     }
 
     @GetMapping("/findByNumberPhone")

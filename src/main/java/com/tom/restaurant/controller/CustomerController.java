@@ -1,7 +1,6 @@
 package com.tom.restaurant.controller;
 
-import com.tom.restaurant.entity.dto.CustomerDto;
-import com.tom.restaurant.entity.dto.ProductDto;
+import com.tom.restaurant.entity.dto.CustomerRequest;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,8 @@ public class CustomerController {
     }
 
     @PostMapping("/addOrUpdate")
-    public Response<?> addOrUpdate(@RequestBody CustomerDto dto) {
-        return customerService.addOrUpdate(dto);
+    public Response<?> addOrUpdate(@RequestBody CustomerRequest request) {
+        return customerService.addOrUpdate(request);
     }
 
     @PostMapping("/delete")

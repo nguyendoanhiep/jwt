@@ -1,6 +1,6 @@
 package com.tom.restaurant.controller;
 
-import com.tom.restaurant.entity.dto.OrdersDto;
+import com.tom.restaurant.entity.dto.OrdersRequest;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,8 @@ public class OrderController {
     }
 
     @PostMapping("/addOrUpdate")
-    public Response<?> save(@RequestBody OrdersDto ordersDto) {
-        return orderService.save(ordersDto);
+    public Response<?> save(@RequestBody OrdersRequest request) {
+        return orderService.save(request);
     }
 
 

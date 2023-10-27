@@ -3,7 +3,8 @@ package com.tom.restaurant.service.impl;
 import com.tom.restaurant.entity.Customer;
 import com.tom.restaurant.entity.Orders;
 import com.tom.restaurant.entity.Voucher;
-import com.tom.restaurant.entity.dto.OrdersDto;
+import com.tom.restaurant.entity.dto.OrdersRequest;
+import com.tom.restaurant.entity.dto.OrdersResponse;
 import com.tom.restaurant.repository.*;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.OrderService;
@@ -16,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Response<?> getAll(Pageable pageable, String search, Integer status) {
         try {
-            Page<OrdersDto> ordersList = orderRepository.getAll(pageable, search, status);
+            Page<OrdersResponse> ordersList = orderRepository.getAll(pageable, search, status);
             return Response.SUCCESS(ordersList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,27 +41,27 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Response<?> save(OrdersDto ordersDto) {
+    public Response<?> save(OrdersRequest request) {
         try {
-            if (ordersDto.getNumberPhone() != null) {
-                Customer customer = customerRepository.findByNumberPhone(ordersDto.getNumberPhone());
+            if (request.getNumberPhone() != null) {
+                Customer customer = customerRepository.findByNumberPhone(request.getNumberPhone());
                 if (customer == null) {
                     customerRepository.save(Customer
                             .builder()
                             .id(null)
-                            .numberPhone(ordersDto.getNumberPhone())
+                            .numberPhone(request.getNumberPhone())
                             .status(1)
                             .loyaltyPoints(0L)
                             .createDate(new Date())
                             .modifiedDate(new Date())
                             .build());
                 } else {
-                    customer.setLoyaltyPoints(customer.getLoyaltyPoints() + (ordersDto.getTotalValue()) / 100);
+                    customer.setLoyaltyPoints(customer.getLoyaltyPoints() + (request.getTotalValue()) / 100);
                     customerRepository.save(customer);
                 }
             }
-            if (ordersDto.getVoucherId() != null) {
-                Optional<Voucher> voucher = voucherRepository.findById(ordersDto.getVoucherId());
+            if (request.getVoucherId() != null) {
+                Optional<Voucher> voucher = voucherRepository.findById(request.getVoucherId());
                 voucher.ifPresent(entity -> {
                     if (entity.getQuantity() > 0) {
                         entity.setQuantity(entity.getQuantity() - 1);
@@ -74,19 +74,19 @@ public class OrderServiceImpl implements OrderService {
             }
             Orders orders = orderRepository.save(Orders
                     .builder()
-                    .id(ordersDto.getId())
-                    .code(ordersDto.getId() == null ? generateRandomCode() : ordersDto.getCode())
-                    .numberPhone(ordersDto.getNumberPhone())
-                    .voucherId(ordersDto.getVoucherId())
-                    .originalTotalValue(ordersDto.getOriginalTotalValue())
-                    .discountAmount(ordersDto.getDiscountAmount() == null ? 0 : ordersDto.getDiscountAmount())
-                    .totalValue(ordersDto.getTotalValue())
+                    .id(request.getId())
+                    .code(request.getId() == null ? generateRandomCode() : request.getCode())
+                    .numberPhone(request.getNumberPhone())
+                    .voucherId(request.getVoucherId())
+                    .originalTotalValue(request.getOriginalTotalValue())
+                    .discountAmount(request.getDiscountAmount() == null ? 0 : request.getDiscountAmount())
+                    .totalValue(request.getTotalValue())
                     .status(1)
-                    .createDate(ordersDto.getCreateDate() == null ? new Date() : ordersDto.getCreateDate())
+                    .createDate(request.getCreateDate() == null ? new Date() : request.getCreateDate())
                     .modifiedDate(new Date())
                     .build());
-            ordersDto.getOrdersProducts().forEach(product -> product.setOrdersId(orders.getId()));
-            ordersProductRepository.saveAll(ordersDto.getOrdersProducts());
+            request.getOrdersProducts().forEach(product -> product.setOrdersId(orders.getId()));
+            ordersProductRepository.saveAll(request.getOrdersProducts());
             return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();

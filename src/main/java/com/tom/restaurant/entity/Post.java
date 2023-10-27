@@ -43,10 +43,4 @@ public class Post implements Serializable {
     @Column(name = "modified_date", nullable = false)
     @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     private Date modifiedDate;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "post_image",
-            joinColumns = {@JoinColumn(name = "post_id")},
-            inverseJoinColumns = {@JoinColumn(name = "image_id")})
-    private List<Image> images;
 }

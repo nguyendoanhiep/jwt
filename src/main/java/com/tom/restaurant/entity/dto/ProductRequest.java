@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class ProductDto {
+public class ProductRequest {
     private Long id;
     private String name;
     private String description;

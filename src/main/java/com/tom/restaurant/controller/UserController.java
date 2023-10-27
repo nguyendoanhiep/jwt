@@ -4,7 +4,7 @@ package com.tom.restaurant.controller;
 import com.tom.restaurant.entity.dto.FormChangePassword;
 import com.tom.restaurant.entity.dto.FormRegister;
 import com.tom.restaurant.entity.dto.FormLogin;
-import com.tom.restaurant.entity.dto.UserDto;
+import com.tom.restaurant.entity.dto.UserRequest;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +40,8 @@ public class UserController {
     }
 
     @PostMapping("/edit")
-    public Response<?> edit(@RequestBody UserDto userDto) {
-        return userService.editUser(userDto);
+    public Response<?> edit(@RequestBody UserRequest request) {
+        return userService.editUser(request);
     }
 
     @PostMapping("/changePassword")

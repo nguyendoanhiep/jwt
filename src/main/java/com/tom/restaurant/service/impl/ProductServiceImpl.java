@@ -2,7 +2,7 @@ package com.tom.restaurant.service.impl;
 
 import com.tom.restaurant.entity.Image;
 import com.tom.restaurant.entity.Product;
-import com.tom.restaurant.entity.dto.ProductDto;
+import com.tom.restaurant.entity.dto.ProductRequest;
 import com.tom.restaurant.repository.ImageRepository;
 import com.tom.restaurant.repository.ProductRepository;
 import com.tom.restaurant.response.Response;
@@ -34,18 +34,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Response<?> addOrUpdate(ProductDto dto) {
+    public Response<?> addOrUpdate(ProductRequest request) {
         try {
-            List<Image> ls = imageRepository.saveAll(dto.getImages());
+            List<Image> ls = imageRepository.saveAll(request.getImages());
             Product product = Product.builder()
-                    .id(dto.getId())
-                    .name(dto.getName())
-                    .price(dto.getPrice())
-                    .type(dto.getType())
-                    .status(dto.getStatus())
-                    .description(dto.getDescription())
+                    .id(request.getId())
+                    .name(request.getName())
+                    .price(request.getPrice())
+                    .type(request.getType())
+                    .status(request.getStatus())
+                    .description(request.getDescription())
                     .userId(1L)
-                    .createDate(dto.getCreateDate() != null ? dto.getCreateDate() : new Date())
+                    .createDate(request.getCreateDate() != null ? request.getCreateDate() : new Date())
                     .modifiedDate(new Date())
                     .images(ls)
                     .build();

@@ -2,7 +2,7 @@ package com.tom.restaurant.service.impl;
 
 import com.tom.restaurant.entity.Voucher;
 import com.tom.restaurant.entity.VoucherCustomer;
-import com.tom.restaurant.entity.dto.VoucherDto;
+import com.tom.restaurant.entity.dto.VoucherRequest;
 import com.tom.restaurant.repository.VoucherCustomerRepository;
 import com.tom.restaurant.repository.VoucherRepository;
 import com.tom.restaurant.response.Response;
@@ -37,19 +37,19 @@ public class VoucherServiceImp implements VoucherService {
     }
 
     @Override
-    public Response<?> save(VoucherDto voucherDto) {
+    public Response<?> save(VoucherRequest request) {
         try {
             Voucher voucher = voucherRepository.save(Voucher
                     .builder()
-                    .id(voucherDto.getId())
-                    .code(voucherDto.getId() == null ? generateRandomCode() : voucherDto.getCode())
-                    .name(voucherDto.getName())
-                    .value(voucherDto.getValue())
-                    .quantity(voucherDto.getQuantity())
-                    .userCreateId(voucherDto.getUserCreateId())
-                    .status(voucherDto.getStatus())
-                    .voucherStartDate(voucherDto.getVoucherStartDate())
-                    .voucherExpirationDate(voucherDto.getVoucherExpirationDate())
+                    .id(request.getId())
+                    .code(request.getId() == null ? generateRandomCode() : request.getCode())
+                    .name(request.getName())
+                    .value(request.getValue())
+                    .quantity(request.getQuantity())
+                    .userCreateId(request.getUserCreateId())
+                    .status(request.getStatus())
+                    .voucherStartDate(request.getVoucherStartDate())
+                    .voucherExpirationDate(request.getVoucherExpirationDate())
                     .createDate(new Date())
                     .modifiedDate(new Date())
                     .build());

@@ -3,7 +3,7 @@ package com.tom.restaurant.service.impl;
 import com.tom.restaurant.entity.*;
 import com.tom.restaurant.entity.dto.FormChangePassword;
 import com.tom.restaurant.entity.dto.FormRegister;
-import com.tom.restaurant.entity.dto.UserDto;
+import com.tom.restaurant.entity.dto.UserRequest;
 import com.tom.restaurant.entity.dto.FormLogin;
 import com.tom.restaurant.jwt.JwtTokenProvider;
 import com.tom.restaurant.repository.*;
@@ -20,7 +20,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -112,21 +111,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Response<?> editUser(UserDto userDto) {
+    public Response<?> editUser(UserRequest request) {
         try {
             Set<Role> roles = new HashSet<>();
-            userDto.getRoles().forEach(data -> {
+            request.getRoles().forEach(data -> {
                 Role role = roleRepository.findByName(data).orElseThrow(() -> new RuntimeException("Role not found"));
                 roles.add(role);
             });
-            User user = userRepository.findById(userDto.getId()).get();
-            if (!Objects.equals(user.getNumberPhone(), userDto.getNumberPhone())) {
-                customerRepository.updateNumberPhone(user.getNumberPhone(),userDto.getNumberPhone());
-                orderRepository.updateNumberPhone(user.getNumberPhone(),userDto.getNumberPhone());
-                voucherCustomerRepository.updateNumberPhone(user.getNumberPhone(),userDto.getNumberPhone());
+            User user = userRepository.findById(request.getId()).get();
+            if (!Objects.equals(user.getNumberPhone(), request.getNumberPhone())) {
+                customerRepository.updateNumberPhone(user.getNumberPhone(), request.getNumberPhone());
+                orderRepository.updateNumberPhone(user.getNumberPhone(), request.getNumberPhone());
+                voucherCustomerRepository.updateNumberPhone(user.getNumberPhone(), request.getNumberPhone());
             }
-            user.setNumberPhone(userDto.getNumberPhone());
-            user.setStatus(userDto.getStatus());
+            user.setNumberPhone(request.getNumberPhone());
+            user.setStatus(request.getStatus());
             user.setRoles(roles);
             user.setModifiedDate(new Date());
             userRepository.save(user);

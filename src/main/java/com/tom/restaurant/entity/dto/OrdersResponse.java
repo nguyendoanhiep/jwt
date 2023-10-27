@@ -1,21 +1,16 @@
 package com.tom.restaurant.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.tom.restaurant.entity.OrdersProduct;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
-@Getter
-@Setter
-public class OrdersDto {
+
+@Data
+public class OrdersResponse {
     private Long id;
     private String customerName;
     private String code;
     private String numberPhone;
-    private Long voucherId;
     private String voucherName;
     private Long originalTotalValue;
     private Long discountAmount;
@@ -23,9 +18,8 @@ public class OrdersDto {
     private Integer status;
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createDate;
-    private List<OrdersProduct> ordersProducts;
 
-    public OrdersDto(Long id ,String customerName, String code, String numberPhone, String voucherName, Long originalTotalValue, Long discountAmount, Long totalValue, Integer status, Date createDate) {
+    public OrdersResponse(Long id , String customerName, String code, String numberPhone, String voucherName, Long originalTotalValue, Long discountAmount, Long totalValue, Integer status, Date createDate) {
         this.id = id;
         this.customerName = customerName;
         this.code = code;

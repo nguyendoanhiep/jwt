@@ -3,10 +3,9 @@ package com.tom.restaurant.entity.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.util.Date;
-import java.util.List;
 
 @Data
-public class VoucherDto {
+public class VoucherRequest {
     private Long id;
     private String name;
     private String code;

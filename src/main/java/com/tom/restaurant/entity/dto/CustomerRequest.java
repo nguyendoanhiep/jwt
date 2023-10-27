@@ -1,22 +1,36 @@
 package com.tom.restaurant.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.tom.restaurant.entity.Customer;
-import com.tom.restaurant.entity.Role;
-import lombok.*;
+import lombok.Data;
 import java.util.Date;
-import java.util.Set;
 
 @Data
-public class UserDto {
+public class CustomerRequest {
+
     private Long id;
-    private String username;
-    private String password;
+
+    private String name;
+
     private String numberPhone;
+
+    private String email;
+
+    private String gender;
+
+    private String address;
+
     private Integer status;
+
+    private String urlImage;
+
+    private Long loyaltyPoints;
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    private Date dateOfBirth;
+
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createDate;
+
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
-    private Set<String> roles;
 }
