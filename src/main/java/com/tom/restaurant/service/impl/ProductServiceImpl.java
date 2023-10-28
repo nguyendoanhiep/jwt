@@ -59,47 +59,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Response<?> getImageByProductId(Long productId) {
-       try {
-           List<Image> images = imageRepository.getImageByProductId(productId);
-           return Response.SUCCESS(images);
-       }catch (Exception e){
-           log.info(e.getMessage());
-           return Response.FAIL(false);
-       }
-    }
-
-    @Override
-    public Response<?> setPriorityImage(Long imageId, Long productId) {
-        try {
-            List<Image> images = imageRepository.getImageByProductId(productId);
-            images.forEach(data -> {
-                if(data.getId().equals(imageId)){
-                    data.setPriority(1);
-                }else {
-                    data.setPriority(0);
-                }
-            });
-            imageRepository.saveAll(images);
-            return Response.SUCCESS();
-        }catch (Exception e){
-            log.info(e.getMessage());
-            return Response.FAIL(false);
-        }
-    }
-
-    @Override
-    public Response<?> deleteImageOfProduct(Long imageId) {
-        try {
-            imageRepository.deleteById(imageId);
-            return Response.SUCCESS();
-        }catch (Exception e){
-            log.info(e.getMessage());
-            return Response.FAIL(false);
-        }
-    }
-
-    @Override
     public Response<?> delete(Long id) {
         try {
             productRepository.deleteById(id);

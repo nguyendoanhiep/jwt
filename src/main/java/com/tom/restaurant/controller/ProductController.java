@@ -15,6 +15,7 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
     @GetMapping("/getAll")
     public Response<?> getAll(@RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "10") int size,
@@ -33,24 +34,7 @@ public class ProductController {
     public Response<?> addOrUpdate(@RequestBody ProductRequest request) {
         return productService.addOrUpdate(request);
     }
-    @GetMapping("/getImageByProductId")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Response<?> addOrUpdateImage(@RequestParam Long productId) {
-        return productService.getImageByProductId(productId);
-    }
 
-    @GetMapping("/setPriorityImage")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Response<?> setPriorityImage(@RequestParam Long imageId ,
-                                        @RequestParam Long productId  ) {
-        return productService.setPriorityImage(imageId,productId);
-    }
-
-    @PostMapping("/deleteImageOfProduct")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Response<?> deleteImageOfProduct(@RequestParam Long imageId) {
-        return productService.deleteImageOfProduct(imageId);
-    }
     @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response<?> delete(@RequestParam Long id) {
