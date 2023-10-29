@@ -42,9 +42,15 @@ public class VoucherController {
 
     @PostMapping("/addVoucherForCustomer")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Response<?> addVoucherForCustomer(@RequestParam List<String> numberPhoneList,
+    public Response<?> addVoucherForCustomer(@RequestParam String numberPhone,
                                              @RequestParam Long voucherId) {
-        return voucherService.addVoucherForCustomer( numberPhoneList ,voucherId);
+        return voucherService.addVoucherForCustomer( numberPhone ,voucherId);
+    }
+    @PostMapping("/removeVoucherForCustomer")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Response<?> removeVoucherForCustomer(@RequestParam String numberPhone,
+                                               @RequestParam Long voucherId) {
+        return voucherService.removeVoucherForCustomer( numberPhone ,voucherId);
     }
 
     @PostMapping("/delete")

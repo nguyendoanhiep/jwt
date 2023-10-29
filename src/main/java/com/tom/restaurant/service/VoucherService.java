@@ -10,6 +10,7 @@ public interface VoucherService {
     Response<?> getAll(Pageable pageable,String search , Integer status);
     Response<?> save(VoucherRequest request);
     Response<?> findByNumberPhone(String numberPhone);
-    Response<?> addVoucherForCustomer(List<String> numberPhoneList , Long voucherId);
+    Response<?> addVoucherForCustomer(String numberPhone , Long voucherId);
+    Response<?> removeVoucherForCustomer(String numberPhone , Long voucherId);
     Response<?> delete(Long id);
 }

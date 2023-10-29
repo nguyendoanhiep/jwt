@@ -5,6 +5,7 @@ import com.tom.restaurant.entity.VoucherCustomer;
 import com.tom.restaurant.entity.dto.VoucherRequest;
 import com.tom.restaurant.repository.VoucherCustomerRepository;
 import com.tom.restaurant.repository.VoucherRepository;
+import com.tom.restaurant.response.Details;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,15 +73,31 @@ public class VoucherServiceImp implements VoucherService {
     }
 
     @Override
-    public Response<?> addVoucherForCustomer(List<String> numberPhoneList, Long voucherId) {
+    public Response<?> addVoucherForCustomer(String numberPhone, Long voucherId) {
         try {
-            List<VoucherCustomer> voucherCustomerList = numberPhoneList.stream().map(numberPhone -> {
-                VoucherCustomer voucherCustomer = new VoucherCustomer();
-                voucherCustomer.setVoucherId(voucherId);
-                voucherCustomer.setNumberPhone(numberPhone);
-                return voucherCustomer;
-            }).collect(Collectors.toList());
-            voucherCustomerRepository.saveAll(voucherCustomerList);
+            VoucherCustomer voucherCustomerExits = voucherCustomerRepository.checkExits(numberPhone,voucherId);
+            if(voucherCustomerExits != null){
+                return Response.FAIL(Details.DATA_ALREADY_EXISTS);
+            }
+            VoucherCustomer voucherCustomer = new VoucherCustomer();
+            voucherCustomer.setVoucherId(voucherId);
+            voucherCustomer.setNumberPhone(numberPhone);
+            voucherCustomerRepository.save(voucherCustomer);
+            return Response.SUCCESS(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.FAIL(false);
+        }
+    }
+
+    @Override
+    public Response<?> removeVoucherForCustomer(String numberPhone, Long voucherId) {
+        try {
+            VoucherCustomer voucherCustomerExits = voucherCustomerRepository.checkExits(numberPhone,voucherId);
+            if(voucherCustomerExits == null){
+                return Response.FAIL(Details.DATA_NOT_FOUND);
+            }
+            voucherCustomerRepository.delete(voucherCustomerExits);
             return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
