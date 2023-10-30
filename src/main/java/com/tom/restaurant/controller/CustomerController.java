@@ -25,6 +25,16 @@ public class CustomerController {
                 search.equals("") ? null : search, status);
     }
 
+    @GetMapping("/getAllByVoucherId")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Response<?> getAllByVoucherId(@RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "10") int size,
+                              @RequestParam String search,
+                              @RequestParam Long voucherId) {
+        return customerService.getAllByVoucherId(PageRequest.of(page - 1, size),
+                search.equals("") ? null : search, voucherId);
+    }
+
     @PostMapping("/addOrUpdate")
     public Response<?> addOrUpdate(@RequestBody CustomerRequest request) {
         return customerService.addOrUpdate(request);

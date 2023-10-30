@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface CustomerService {
     Response<?> getAll(Pageable pageable, String search , Integer status);
+    Response<?> getAllByVoucherId(Pageable pageable, String search , Long voucherId);
     Response<?> addOrUpdate(CustomerRequest request);
     Response<?> delete(Long id);
 

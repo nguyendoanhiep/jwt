@@ -2,15 +2,18 @@ package com.tom.restaurant.service.impl;
 
 import com.tom.restaurant.entity.Customer;
 import com.tom.restaurant.entity.dto.CustomerRequest;
+import com.tom.restaurant.entity.dto.CustomerResponse;
 import com.tom.restaurant.repository.*;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -27,6 +30,21 @@ public class CustomerServiceImpl implements CustomerService {
     public Response<?> getAll(Pageable pageable, String search, Integer status) {
         try {
             return Response.SUCCESS(customerRepository.getAll(pageable, search, status));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.FAIL(false);
+        }
+    }
+
+    @Override
+    public Response<?> getAllByVoucherId(Pageable pageable, String search, Long voucherId) {
+        try {
+            Page<CustomerResponse> res1 = customerRepository.getAllByVoucherIdExits(pageable, search, voucherId);
+            Page<CustomerResponse> res2 = customerRepository.getAllByVoucherIdNotExits(pageable, search);
+            Set<CustomerResponse> totalRes = new HashSet<>();
+            totalRes.addAll(res1.getContent());
+            totalRes.addAll(res2.getContent());
+            return Response.SUCCESS(totalRes.stream().sorted(Comparator.comparing(CustomerResponse::getId).reversed()).collect(Collectors.toList()));
         } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL(false);
