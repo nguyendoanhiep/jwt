@@ -25,7 +25,7 @@ public class CustomerRequest {
 
     private Long loyaltyPoints;
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date dateOfBirth;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")

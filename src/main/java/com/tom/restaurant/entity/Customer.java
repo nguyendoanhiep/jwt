@@ -49,7 +49,7 @@ public class Customer implements Serializable {
     private Long loyaltyPoints;
 
     @Column(name = "date_of_birth")
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date dateOfBirth;
 
     @Column(name = "create_date", nullable = false)

@@ -37,6 +37,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Response<?> findById(Long id) {
+        return Response.SUCCESS(customerRepository.findById(id).get());
+    }
+
+    @Override
     public Response<?> getAllByVoucherId(Pageable pageable, String search, Long voucherId) {
         try {
             Page<CustomerResponse> res1 = customerRepository.getAllByVoucherIdExits(pageable, search, voucherId);

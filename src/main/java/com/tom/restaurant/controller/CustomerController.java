@@ -24,6 +24,10 @@ public class CustomerController {
         return customerService.getAll(PageRequest.of(page - 1, size),
                 search.equals("") ? null : search, status);
     }
+    @GetMapping("/findById")
+    public Response<?> findById(@RequestParam Long id) {
+        return customerService.findById(id);
+    }
 
     @GetMapping("/getAllByVoucherId")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
