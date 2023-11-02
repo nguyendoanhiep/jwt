@@ -6,11 +6,15 @@ import com.tom.restaurant.entity.dto.CustomerResponse;
 import com.tom.restaurant.repository.*;
 import com.tom.restaurant.response.Response;
 import com.tom.restaurant.service.CustomerService;
+import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,6 +29,8 @@ public class CustomerServiceImpl implements CustomerService {
     OrderRepository orderRepository;
     @Autowired
     VoucherCustomerRepository voucherCustomerRepository;
+    @Autowired
+    EntityManager entityManager;
 
     @Override
     public Response<?> getAll(Pageable pageable, String search, Integer status) {
@@ -44,12 +50,21 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Response<?> getAllByVoucherId(Pageable pageable, String search, Long voucherId) {
         try {
-            Page<CustomerResponse> res1 = customerRepository.getAllByVoucherIdExits(pageable, search, voucherId);
-            Page<CustomerResponse> res2 = customerRepository.getAllByVoucherIdNotExits(pageable, search);
-            Set<CustomerResponse> totalRes = new HashSet<>();
-            totalRes.addAll(res1.getContent());
-            totalRes.addAll(res2.getContent());
-            return Response.SUCCESS(totalRes.stream().sorted(Comparator.comparing(CustomerResponse::getId).reversed()).collect(Collectors.toList()));
+//            StringBuilder sql = new StringBuilder(
+//                    "SELECT c.id, c.name, c.number_phone, c.status, c.loyalty_points, EXISTS (SELECT 1 FROM voucher_customer vc " +
+//                            "WHERE vc.number_phone = c.number_phone AND vc.voucher_id = :voucherId) AS result " +
+//                            "FROM customer c WHERE c.status = 1 ");
+//            if(search != null){
+//                sql.append("and (c.name LIKE :search OR c.number_phone LIKE :search)");
+//            }
+//            Query query = entityManager.createNativeQuery(sql.toString(),CustomerResponse.class);
+//            query.setParameter("voucherId", voucherId);
+//            if(search != null){
+//                query.setParameter("search", search + "%");
+//            }
+//            List<CustomerResponse> res = query.getResultList();
+            List<CustomerResponse> res = customerRepository.getAllByVoucherId(pageable,search, voucherId);
+            return Response.SUCCESS(res);
         } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL(false);
@@ -60,12 +75,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public Response<?> addOrUpdate(CustomerRequest request) {
         try {
-            Customer customer = new Customer();
+            Customer customer = request.getId() == null ? new Customer() : customerRepository.findById(request.getId()).get(); ;
             if (request.getId() != null) {
-                Customer cus = customerRepository.findById(request.getId()).get();
-                userRepository.updateNumberPhone(cus.getNumberPhone(),request.getNumberPhone());
-                orderRepository.updateNumberPhone(cus.getNumberPhone(),request.getNumberPhone());
-                voucherCustomerRepository.updateNumberPhone(cus.getNumberPhone(),request.getNumberPhone());
+                userRepository.updateNumberPhone(customer.getNumberPhone(),request.getNumberPhone());
+                orderRepository.updateNumberPhone(customer.getNumberPhone(),request.getNumberPhone());
+                voucherCustomerRepository.updateNumberPhone(customer.getNumberPhone(),request.getNumberPhone());
             }
             customer.setId(request.getId());
             customer.setName(request.getName());
@@ -77,7 +91,9 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setLoyaltyPoints(request.getLoyaltyPoints()== null ? 0 : request.getLoyaltyPoints());
             customer.setDateOfBirth(request.getDateOfBirth());
             customer.setStatus(request.getStatus());
-            customer.setCreateDate(request.getCreateDate() == null ? new Date() : request.getCreateDate());
+            if(request.getId() == null){
+                customer.setCreateDate(new Date());
+            }
             customer.setModifiedDate(new Date());
             customerRepository.save(customer);
             return Response.SUCCESS(true);

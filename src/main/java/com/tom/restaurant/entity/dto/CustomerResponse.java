@@ -2,9 +2,14 @@ package com.tom.restaurant.entity.dto;
 
 import lombok.Data;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 
 @Data
-public class CustomerResponse {
+@Entity
+public class CustomerResponse implements Serializable {
+    @Id
     private Long id;
 
     private String name;
@@ -15,14 +20,14 @@ public class CustomerResponse {
 
     private Long loyaltyPoints;
 
-    private Long voucherId;
+    private Integer result;
 
-    public CustomerResponse(Long id, String name, String numberPhone, Integer status, Long loyaltyPoints, Long voucherId) {
+    public CustomerResponse(Long id, String name, String numberPhone, Integer status, Long loyaltyPoints, Integer result) {
         this.id = id;
         this.name = name;
         this.numberPhone = numberPhone;
         this.status = status;
         this.loyaltyPoints = loyaltyPoints;
-        this.voucherId = voucherId;
+        this.result = result;
     }
 }

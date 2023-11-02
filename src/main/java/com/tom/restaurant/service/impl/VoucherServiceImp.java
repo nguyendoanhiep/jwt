@@ -40,21 +40,22 @@ public class VoucherServiceImp implements VoucherService {
     @Override
     public Response<?> save(VoucherRequest request) {
         try {
-            Voucher voucher = voucherRepository.save(Voucher
-                    .builder()
-                    .id(request.getId())
-                    .code(request.getId() == null ? generateRandomCode() : request.getCode())
-                    .name(request.getName())
-                    .value(request.getValue())
-                    .quantity(request.getQuantity())
-                    .userCreateId(request.getUserCreateId())
-                    .status(request.getStatus())
-                    .voucherStartDate(request.getVoucherStartDate())
-                    .voucherExpirationDate(request.getVoucherExpirationDate())
-                    .createDate(new Date())
-                    .modifiedDate(new Date())
-                    .build());
-            return Response.SUCCESS(voucher.getId());
+            Voucher voucher = request.getId() == null ? new Voucher() : voucherRepository.findById(request.getId()).get();
+            voucher.setId(request.getId());
+            voucher.setCode(request.getId() == null ? generateRandomCode() : request.getCode());
+            voucher.setName(request.getName());
+            voucher.setValue(request.getValue());
+            voucher.setQuantity(request.getQuantity());
+            voucher.setUserCreateId(request.getUserCreateId());
+            voucher.setStatus(request.getStatus());
+            voucher.setVoucherStartDate(request.getVoucherStartDate());
+            voucher.setVoucherExpirationDate(request.getVoucherExpirationDate());
+            if(voucher.getId()==null){
+                voucher.setCreateDate(new Date());
+            }
+            voucher.setModifiedDate(new Date());
+            voucherRepository.save(voucher);
+            return Response.SUCCESS(true);
         } catch (Exception e) {
             e.printStackTrace();
             return Response.FAIL(false);
@@ -75,8 +76,8 @@ public class VoucherServiceImp implements VoucherService {
     @Override
     public Response<?> addVoucherForCustomer(String numberPhone, Long voucherId) {
         try {
-            VoucherCustomer voucherCustomerExits = voucherCustomerRepository.checkExits(numberPhone,voucherId);
-            if(voucherCustomerExits != null){
+            VoucherCustomer voucherCustomerExits = voucherCustomerRepository.checkExits(numberPhone, voucherId);
+            if (voucherCustomerExits != null) {
                 return Response.FAIL(Details.DATA_ALREADY_EXISTS);
             }
             VoucherCustomer voucherCustomer = new VoucherCustomer();
@@ -93,8 +94,8 @@ public class VoucherServiceImp implements VoucherService {
     @Override
     public Response<?> removeVoucherForCustomer(String numberPhone, Long voucherId) {
         try {
-            VoucherCustomer voucherCustomerExits = voucherCustomerRepository.checkExits(numberPhone,voucherId);
-            if(voucherCustomerExits == null){
+            VoucherCustomer voucherCustomerExits = voucherCustomerRepository.checkExits(numberPhone, voucherId);
+            if (voucherCustomerExits == null) {
                 return Response.FAIL(Details.DATA_NOT_FOUND);
             }
             voucherCustomerRepository.delete(voucherCustomerExits);

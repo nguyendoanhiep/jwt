@@ -35,7 +35,7 @@ public class CustomerController {
                               @RequestParam(defaultValue = "10") int size,
                               @RequestParam String search,
                               @RequestParam Long voucherId) {
-        return customerService.getAllByVoucherId(PageRequest.of(page - 1, size),
+            return customerService.getAllByVoucherId(PageRequest.of(page - 1, size),
                 search.equals("") ? null : search, voucherId);
     }
 

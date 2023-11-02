@@ -37,18 +37,19 @@ public class ProductServiceImpl implements ProductService {
     public Response<?> addOrUpdate(ProductRequest request) {
         try {
             List<Image> ls = imageRepository.saveAll(request.getImages());
-            Product product = Product.builder()
-                    .id(request.getId())
-                    .name(request.getName())
-                    .price(request.getPrice())
-                    .type(request.getType())
-                    .status(request.getStatus())
-                    .description(request.getDescription())
-                    .userId(1L)
-                    .createDate(request.getCreateDate() != null ? request.getCreateDate() : new Date())
-                    .modifiedDate(new Date())
-                    .images(ls)
-                    .build();
+            Product product = request.getId() == null ? new Product() : productRepository.findById(request.getId()).get();
+            product.setId(request.getId());
+            product.setName(request.getName());
+            product.setPrice(request.getPrice());
+            product.setType(request.getType());
+            product.setStatus(request.getStatus());
+            product.setDescription(request.getDescription());
+            product.setUserId(1L);
+            product.setModifiedDate(new Date());
+            if(product.getId()==null){
+                product.setCreateDate(new Date());
+            }
+            product.setImages(ls);
             productRepository.save(product);
             return Response.SUCCESS(product.getId());
         } catch (Exception e) {
