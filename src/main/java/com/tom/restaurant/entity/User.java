@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -24,24 +25,24 @@ public class User implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     @JsonIgnore
     private String password;
 
-    @Column(name = "number_phone" , length = 20 , nullable = false , unique = true)
+    @Column(name = "number_phone", unique = true)
     private String numberPhone;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private Integer status;
 
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "create_date")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createDate;
 
-    @Column(name = "modified_date", nullable = false)
+    @Column(name = "modified_date")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
 

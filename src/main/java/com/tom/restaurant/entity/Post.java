@@ -24,23 +24,23 @@ public class Post implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "content")
     private String content;
 
-    @Column(name = "status" , nullable = false)
+    @Column(name = "status")
     private Integer status;
 
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "create_date")
     @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     private Date createDate;
 
-    @Column(name = "modified_date", nullable = false)
+    @Column(name = "modified_date")
     @JsonFormat(pattern = "DD-MM-YYYY HH:MM:SS")
     private Date modifiedDate;
 }

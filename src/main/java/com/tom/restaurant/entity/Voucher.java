@@ -25,38 +25,35 @@ public class Voucher implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code")
     private String code;
 
-    @Column(name = "value")
+    @Column(name = "value" )
     private Long value;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity" )
     private Long quantity;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private Integer status;
 
-    @Column(name = "user_create_id")
-    private Long userCreateId;
-
-    @Column(name = "voucher_start_date", nullable = false)
+    @Column(name = "voucher_start_date")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date voucherStartDate;
 
-    @Column(name = "voucher_expiration_date", nullable = false)
+    @Column(name = "voucher_expiration_date")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date voucherExpirationDate;
 
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "create_date")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createDate;
 
-    @Column(name = "modified_date", nullable = false)
+    @Column(name = "modified_date")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
 }

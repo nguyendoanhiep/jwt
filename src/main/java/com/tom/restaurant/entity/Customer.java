@@ -27,7 +27,7 @@ public class Customer implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "number_phone",length = 20 , unique = true)
+    @Column(name = "number_phone", unique = true)
     private String numberPhone;
 
     @Column(name = "email")
@@ -39,7 +39,7 @@ public class Customer implements Serializable {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private Integer status;
 
     @Column(name = "urlImage")
@@ -52,11 +52,11 @@ public class Customer implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date dateOfBirth;
 
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "create_date")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createDate;
 
-    @Column(name = "modified_date", nullable = false)
+    @Column(name = "modified_date")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
 

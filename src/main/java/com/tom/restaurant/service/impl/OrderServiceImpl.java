@@ -82,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
                     .discountAmount(request.getDiscountAmount() == null ? 0 : request.getDiscountAmount())
                     .totalValue(request.getTotalValue())
                     .status(1)
-                    .createDate(request.getCreateDate() == null ? new Date() : request.getCreateDate())
+                    .createDate(new Date())
                     .modifiedDate(new Date())
                     .build());
             request.getOrdersProducts().forEach(product -> product.setOrdersId(orders.getId()));

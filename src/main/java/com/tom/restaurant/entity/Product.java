@@ -24,7 +24,7 @@ public class Product implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "description")
@@ -33,26 +33,24 @@ public class Product implements Serializable {
     @Column(name = "price")
     private Long price;
 
-    @Column(name = "status" , nullable = false)
+    @Column(name = "status")
     private Integer status;
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "type")
     private Integer type;
 
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "create_date")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createDate;
 
-    @Column(name = "modified_date", nullable = false)
+    @Column(name = "modified_date")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date modifiedDate;
-
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "product_image",
             joinColumns = {@JoinColumn(name = "product_id")},
             inverseJoinColumns = {@JoinColumn(name = "image_id")})
+    @OrderBy("priority DESC")
     private List<Image> images;
 }

@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 
 @Data
-@Entity
+@MappedSuperclass
 public class CustomerResponse implements Serializable {
     @Id
     private Long id;

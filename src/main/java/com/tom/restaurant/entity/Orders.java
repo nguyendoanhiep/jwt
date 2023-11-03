@@ -23,7 +23,7 @@ public class Orders implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code")
     private String code;
 
     @Column(name = "number_phone")

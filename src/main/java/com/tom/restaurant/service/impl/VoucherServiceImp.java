@@ -46,7 +46,6 @@ public class VoucherServiceImp implements VoucherService {
             voucher.setName(request.getName());
             voucher.setValue(request.getValue());
             voucher.setQuantity(request.getQuantity());
-            voucher.setUserCreateId(request.getUserCreateId());
             voucher.setStatus(request.getStatus());
             voucher.setVoucherStartDate(request.getVoucherStartDate());
             voucher.setVoucherExpirationDate(request.getVoucherExpirationDate());

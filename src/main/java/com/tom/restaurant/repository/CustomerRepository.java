@@ -3,7 +3,6 @@ package com.tom.restaurant.repository;
 import com.tom.restaurant.entity.Customer;
 import com.tom.restaurant.entity.dto.CustomerResponse;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
