@@ -28,9 +28,4 @@ public class CustomerRequest {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date dateOfBirth;
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private Date createDate;
-
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private Date modifiedDate;
 }

@@ -45,9 +45,7 @@ public class ProductServiceImpl implements ProductService {
             product.setStatus(request.getStatus());
             product.setDescription(request.getDescription());
             product.setModifiedDate(new Date());
-            if(product.getId()==null){
-                product.setCreateDate(new Date());
-            }
+            product.setCreateDate(request.getId() == null ? new Date() : product.getCreateDate());
             product.setImages(ls);
             productRepository.save(product);
             return Response.SUCCESS(product.getId());

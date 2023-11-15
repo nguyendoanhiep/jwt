@@ -12,7 +12,6 @@ public class VoucherRequest {
     private Long value;
     private Long quantity;
     private Integer status;
-    private Long userCreateId;
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date voucherStartDate;
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")

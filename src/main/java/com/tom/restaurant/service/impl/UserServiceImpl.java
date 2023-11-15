@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Response<?> register(FormRegister formRegister) {
         try {
             Optional<User> checkUserExists = userRepository.findByUsername(formRegister.getUsername());

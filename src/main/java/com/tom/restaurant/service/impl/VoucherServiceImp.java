@@ -40,6 +40,7 @@ public class VoucherServiceImp implements VoucherService {
     @Override
     public Response<?> save(VoucherRequest request) {
         try {
+
             Voucher voucher = request.getId() == null ? new Voucher() : voucherRepository.findById(request.getId()).get();
             voucher.setId(request.getId());
             voucher.setCode(request.getId() == null ? generateRandomCode() : request.getCode());
@@ -49,9 +50,7 @@ public class VoucherServiceImp implements VoucherService {
             voucher.setStatus(request.getStatus());
             voucher.setVoucherStartDate(request.getVoucherStartDate());
             voucher.setVoucherExpirationDate(request.getVoucherExpirationDate());
-            if(voucher.getId()==null){
-                voucher.setCreateDate(new Date());
-            }
+            voucher.setCreateDate(request.getId() == null ? new Date() : voucher.getCreateDate());
             voucher.setModifiedDate(new Date());
             voucherRepository.save(voucher);
             return Response.SUCCESS(true);

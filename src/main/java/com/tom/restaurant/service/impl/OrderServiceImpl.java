@@ -13,10 +13,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -41,8 +44,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Response<?> save(OrdersRequest request) {
         try {
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            executorService.submit(()->{
+                System.out.println("ok");
+            });
+            executorService.execute(()->{
+                System.out.println("ok");
+            });
             if (request.getNumberPhone() != null) {
                 Customer customer = customerRepository.findByNumberPhone(request.getNumberPhone());
                 if (customer == null) {

@@ -1,7 +1,6 @@
 package com.tom.restaurant.repository;
 
 import com.tom.restaurant.entity.Orders;
-import com.tom.restaurant.entity.dto.OrdersRequest;
 import com.tom.restaurant.entity.dto.OrdersResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

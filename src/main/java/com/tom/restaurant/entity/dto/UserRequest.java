@@ -12,9 +12,5 @@ public class UserRequest {
     private String password;
     private String numberPhone;
     private Integer status;
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private Date createDate;
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private Date modifiedDate;
     private Set<String> roles;
 }
